@@ -1,0 +1,18 @@
+
+class Build extends Project
+{
+    override function setup()
+    {
+        app.name      = 'SystemTests';
+        app.main      = 'Game';
+        app.output    = 'bin';
+        app.codepaths = [ 'src' ];
+
+        build.dependencies = [
+            'flurry'       => null,
+            'format-tiled' => null
+        ];
+
+        parcels = [ 'assets/assets.json' ];
+    }
+}

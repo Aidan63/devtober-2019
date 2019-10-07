@@ -1,4 +1,3 @@
-
 class Build extends Project
 {
     override function setup()
@@ -10,7 +9,8 @@ class Build extends Project
 
         build.dependencies = [
             'flurry'       => null,
-            'format-tiled' => null
+            'format-tiled' => null,
+            'tweenxcore'   => null
         ];
 
         parcels = [ 'assets/assets.json' ];

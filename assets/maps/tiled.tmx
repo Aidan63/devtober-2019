@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="1">
+ <tileset firstgid="1" source="colored.tsx"/>
+ <layer id="5" name="Floor" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt10FugzAQBVBDQsKq99/2pgWFr0wsqhqpy/ekEThONv7xGFobt2713Goq9Sj1LPO5X485xt22um+1bDW313rms6/5Va2913lt72z2qln0lTnG7es8l2uy2Mc1j+SQvdHvhanM17E8rkkGkVz2qnmkL/V5rCfV9zPG7VlMZbyUcd+v0n+SR9Y7+6Dmkc/lcU3+y7VXLcfcb/sjPep2fPd+3Nff38o843J25MxY2nke2Q9Z46x97U/pX9kbKcbV56n0quSTPL6nzxzq+VF7VrKpGcnjmv4ZdynX/vmqf694ts+zI7kkp1wZl3Oj9qr8t8/Oj/6dsL5v1EzS3+qzAv+nX+O+Vz1OxskOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPjbDwuoBcg=
+  </data>
+ </layer>
+ <layer id="2" name="Billboards" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1TEOgCAMBVCuYkDvfyUTD+KikcEmDgqYvLfA0KGB9Dcl/mar7iWomVo0wq18nP5gHPWczN26IBLlGO3Iq3EtvRuABtYHNWdOlXTtjRzU8q3z/eXTmMwFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALxnB7S2A/w=
+  </data>
+ </layer>
+ <layer id="1" name="Walls" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt10EKgzAQBVDb68Sb5BQt9GDetC5dtPHDgAR8D4KbWYT8mWDac1nWffWTb9tX4pWV8ccannNaJ4+aHp5zWiePmmPft8G9lM7Hu76lW+uDPLbH77oRedSM+v6YRzofn9p2bm/U9+bjemnfp+RR4/9qLt4fc2ne5wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwjS8aRw+8
+  </data>
+ </layer>
+</map>

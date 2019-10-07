@@ -2,11 +2,11 @@
     "assets" : {
         "bytes"  : [],
         "texts"  : [
-            { "id" : "map", "path" : "assets/maps/map.tmx" }
+            { "id" : "map"        , "path" : "assets/maps/tiled.tmx" },
+            { "id" : "colored.tsx", "path" : "assets/maps/colored.tsx" }
         ],
         "images" : [
-            { "id" : "enemy", "path" : "assets/images/knight.png" },
-            { "id" : "walls", "path" : "assets/images/wall.png" }
+            { "id" : "tiles" , "path" : "assets/images/tiles.png" }
         ],
         "shaders" : [
             {
@@ -26,6 +26,6 @@
         ]
     },
     "parcels" : [
-        { "name" : "preload", "assets" : [ "map", "enemy", "walls", "textured", "solid" ], "depends" : [] }
+        { "name" : "preload", "assets" : [ "map", "colored.tsx", "tiles", "textured", "solid" ], "depends" : [] }
     ]
 }

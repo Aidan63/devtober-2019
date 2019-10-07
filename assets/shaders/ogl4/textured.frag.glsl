@@ -9,5 +9,11 @@ layout(location = 0) out vec4 FragColor;
 
 void main()
 {
-    FragColor = texture(defaultTexture, TexCoord) * Color;
+    vec4 texColour = texture(defaultTexture, TexCoord) * Color;
+    if (texColour.a < 0.1)
+    {
+        discard;
+    }
+
+    FragColor = texColour;
 }

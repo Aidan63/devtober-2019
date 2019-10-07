@@ -1,0 +1,3 @@
+-D clay=0.0.4
+# @install: lix --silent download "gh://github.com/RudenkoArts/clay_ecs#8567fa025f047426a27636660cb8c7db8ede8b4b" into clay/0.0.4/github/8567fa025f047426a27636660cb8c7db8ede8b4b
+-cp ${HAXE_LIBCACHE}/clay/0.0.4/github/8567fa025f047426a27636660cb8c7db8ede8b4b/

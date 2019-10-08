@@ -10,7 +10,8 @@ class Build extends Project
         build.dependencies = [
             'flurry'       => null,
             'format-tiled' => null,
-            'tweenxcore'   => null
+            'tweenxcore'   => null,
+            'clay'         => null
         ];
 
         parcels = [ 'assets/assets.json' ];

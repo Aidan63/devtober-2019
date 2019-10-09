@@ -2,7 +2,7 @@ class Build extends Project
 {
     override function setup()
     {
-        app.name      = 'SystemTests';
+        app.name      = 'Devtober-2019';
         app.main      = 'Game';
         app.output    = 'bin';
         app.codepaths = [ 'src' ];

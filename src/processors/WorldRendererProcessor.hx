@@ -164,10 +164,9 @@ class WorldRendererProcessor extends Processor
                 new Vertex( new Vector(-8,  0,  0), colour, new Vector(u1, v1) ),
                 new Vertex( new Vector( 8,  0,  0), colour, new Vector(u2, v1) ),
                 new Vertex( new Vector( 8, 16,  0), colour, new Vector(u2, v2) ),
-                new Vertex( new Vector( 8, 16,  0), colour, new Vector(u2, v2) ),
-                new Vertex( new Vector(-8, 16,  0), colour, new Vector(u1, v2) ),
-                new Vertex( new Vector(-8,  0,  0), colour, new Vector(u1, v1) )
-            ]
+                new Vertex( new Vector(-8, 16,  0), colour, new Vector(u1, v2) )
+            ],
+            indices : [ 0, 1, 2, 2, 3, 0 ]
         });
         geom.position.set_xyz(
             8 + cell.column * 16,
@@ -199,16 +198,15 @@ class WorldRendererProcessor extends Processor
             final v2 = (uvs.y + uvs.h) / texture.height;
 
             floorGeometry.push(new Geometry({
-                batchers: [ batcher ],
-                textures: [ texture ],
-                vertices: [
+                batchers : [ batcher ],
+                textures : [ texture ],
+                vertices : [
                     new Vertex( new Vector(x1, 0, y1), colour, new Vector(u1, v1)),
                     new Vertex( new Vector(x2, 0, y1), colour, new Vector(u2, v1)),
                     new Vertex( new Vector(x2, 0, y2), colour, new Vector(u2, v2)),
-                    new Vertex( new Vector(x2, 0, y2), colour, new Vector(u2, v2)),
-                    new Vertex( new Vector(x1, 0, y2), colour, new Vector(u1, v2)),
-                    new Vertex( new Vector(x1, 0, y1), colour, new Vector(u1, v1))
-                ]
+                    new Vertex( new Vector(x1, 0, y2), colour, new Vector(u1, v2))
+                ],
+                indices : [ 0, 1, 2, 2, 3, 0 ]
             }));
         }
     }

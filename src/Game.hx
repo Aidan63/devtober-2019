@@ -4,6 +4,7 @@ import processors.MovementProcessor;
 import processors.PlayerCameraProcessor;
 import processors.InputProcessor;
 import processors.WorldRendererProcessor;
+import processors.PartyRendererProcessor;
 import processors.MapDataProcessor;
 import components.BillboardComponent;
 import components.UVComponent;
@@ -68,6 +69,7 @@ class Game extends Flurry
         processors.add(new MovementProcessor(), 2);
         processors.add(new PlayerCameraProcessor(), 3);
         processors.add(new WorldRendererProcessor(renderer, resources), 4);
+        processors.add(new PartyRendererProcessor(renderer, resources));
 
         // create map entities.
         createMap();

@@ -6,7 +6,8 @@
             { "id" : "colored.tsx", "path" : "assets/maps/colored.tsx" }
         ],
         "images" : [
-            { "id" : "tiles" , "path" : "assets/images/tiles.png" }
+            { "id" : "tiles" , "path" : "assets/images/tiles.png" },
+            { "id" : "ui", "path" : "assets/images/ui.png" }
         ],
         "shaders" : [
             {
@@ -26,6 +27,6 @@
         ]
     },
     "parcels" : [
-        { "name" : "preload", "assets" : [ "map", "colored.tsx", "tiles", "textured", "solid" ], "depends" : [] }
+        { "name" : "preload", "assets" : [ "map", "colored.tsx", "tiles", "ui", "textured", "solid" ], "depends" : [] }
     ]
 }

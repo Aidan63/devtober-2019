@@ -1,0 +1,3 @@
+-D slide=0.2.0
+# @install: lix --silent download "gh://github.com/RudenkoArts/slide#d8ae73b3107c4d5acadb090c82f47d713a086ab2" into slide/0.2.0/github/d8ae73b3107c4d5acadb090c82f47d713a086ab2
+-cp ${HAXE_LIBCACHE}/slide/0.2.0/github/d8ae73b3107c4d5acadb090c82f47d713a086ab2/

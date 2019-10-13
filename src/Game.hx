@@ -1,11 +1,13 @@
 package;
 
+import clay.Entity;
 import processors.MovementProcessor;
 import processors.PlayerCameraProcessor;
 import processors.InputProcessor;
 import processors.WorldRendererProcessor;
 import processors.PartyRendererProcessor;
 import processors.MapDataProcessor;
+import processors.PartyBattleMenuProcessor;
 import components.BillboardComponent;
 import components.UVComponent;
 import components.PositionComponent;
@@ -14,6 +16,7 @@ import components.DirectionComponent;
 import components.InputComponent;
 import components.MapFloorComponent;
 import components.MapDataComponent;
+import components.PartyComponent;
 import clay.core.ProcessorManager;
 import clay.core.FamilyManager;
 import clay.core.ComponentManager;
@@ -21,6 +24,9 @@ import clay.core.EntityManager;
 import uk.aidanlee.flurry.FlurryConfig;
 import uk.aidanlee.flurry.Flurry;
 import uk.aidanlee.flurry.api.resources.Resource.TextResource;
+import uk.aidanlee.flurry.api.resources.Resource.ShaderResource;
+import uk.aidanlee.flurry.api.gpu.batcher.Batcher;
+import uk.aidanlee.flurry.api.gpu.camera.Camera2D;
 import uk.aidanlee.flurry.api.maths.Rectangle;
 import uk.aidanlee.flurry.api.maths.Vector;
 import format.tmx.Reader;
@@ -34,6 +40,12 @@ class Game extends Flurry
     var families : FamilyManager;
 
     var processors : ProcessorManager;
+
+    var uiCamera : Camera2D;
+
+    var uiBatcher : Batcher;
+
+    var player : Entity;
 
     override function onConfig(_config : FlurryConfig) : FlurryConfig
     {
@@ -50,6 +62,13 @@ class Game extends Flurry
 
     override function onReady()
     {
+        uiCamera  = new Camera2D(160, 120);
+        uiBatcher = renderer.createBatcher({
+            camera : uiCamera,
+            shader : resources.get('textured', ShaderResource),
+            depth  : 1
+        });
+
         entities   = new EntityManager(16384);
         components = new ComponentManager(entities);
         families   = new FamilyManager(components);
@@ -57,6 +76,7 @@ class Game extends Flurry
         
         families.create('family-input', [ InputComponent ]);
         families.create('family-cells', [ CellComponent ]);
+        families.create('family-party', [ PartyComponent ]);
         families.create('family-movement', [ InputComponent, DirectionComponent, CellComponent ]);
         families.create('family-smooth-movement', [ CellComponent, DirectionComponent, PositionComponent ]);
         families.create('family-walls', [ CellComponent, UVComponent ], [ BillboardComponent ]);
@@ -69,22 +89,28 @@ class Game extends Flurry
         processors.add(new MovementProcessor(), 2);
         processors.add(new PlayerCameraProcessor(), 3);
         processors.add(new WorldRendererProcessor(renderer, resources), 4);
-        processors.add(new PartyRendererProcessor(renderer, resources));
+        processors.add(new PartyRendererProcessor(resources, uiBatcher));
+        processors.add(new PartyBattleMenuProcessor(input, resources, uiBatcher));
 
         // create map entities.
         createMap();
 
         // create player entity.
-        components.set_many(entities.create(), [
+        player = entities.create();
+        components.set_many(player, [
             new InputComponent(),
             new DirectionComponent(),
             new CellComponent(1, 1),
-            new PositionComponent()
+            new PositionComponent(),
+            new PartyComponent()
         ]);
     }
 
     override function onUpdate(_dt: Float)
     {
+        uiCamera.viewport.set(0, 0, display.width, display.height);
+        uiCamera.update(_dt);
+
         processors.update(_dt);
     }
 

@@ -11,7 +11,8 @@ class Build extends Project
             'flurry'       => null,
             'format-tiled' => null,
             'tweenxcore'   => null,
-            'clay'         => null
+            'clay'         => null,
+            'slide'        => null
         ];
 
         parcels = [ 'assets/assets.json' ];

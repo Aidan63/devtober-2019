@@ -4,9 +4,12 @@ class PartyComponent
 {
     public final members : Array<PartyMember>;
 
+    public var selected : Int;
+
     public function new()
     {
-        members = [
+        selected = 0;
+        members  = [
             new PartyMember(100,  25),
             new PartyMember( 75, 100),
             new PartyMember( 72,  75)

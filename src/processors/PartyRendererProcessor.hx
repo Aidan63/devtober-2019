@@ -46,7 +46,7 @@ class PartyRendererProcessor extends Processor
 
     override function onadded()
     {
-        familyParty = families.get('family-party');
+        familyParty = families.get('family-ui-party');
         familyParty.onadded.add(partyAdded);
         familyParty.onremoved.add(partyRemoved);
 

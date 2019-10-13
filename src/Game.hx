@@ -17,6 +17,9 @@ import components.InputComponent;
 import components.MapFloorComponent;
 import components.MapDataComponent;
 import components.PartyComponent;
+import components.PartyMemberSelectionComponent;
+import components.PartyMemberActionComponent;
+import components.PartyMemberAbilityComponent;
 import clay.core.ProcessorManager;
 import clay.core.FamilyManager;
 import clay.core.ComponentManager;
@@ -46,6 +49,8 @@ class Game extends Flurry
     var uiBatcher : Batcher;
 
     var player : Entity;
+
+    var ui : Entity;
 
     override function onConfig(_config : FlurryConfig) : FlurryConfig
     {
@@ -84,6 +89,11 @@ class Game extends Flurry
         families.create('family-map-floor', [ MapFloorComponent ]);
         families.create('family-map-data', [ MapDataComponent ]);
 
+        families.create('family-ui-party'           , [ PartyComponent ]);
+        families.create('family-ui-member-selection', [ PartyComponent, PartyMemberSelectionComponent ]);
+        families.create('family-ui-member-action'   , [ PartyComponent, PartyMemberActionComponent ], [ PartyMemberSelectionComponent ]);
+        families.create('family-ui-member-ability'  , [ PartyComponent, PartyMemberAbilityComponent ], [ PartyMemberActionComponent, PartyMemberSelectionComponent ]);
+
         processors.add(new MapDataProcessor(), 0);
         processors.add(new InputProcessor(input), 1);
         processors.add(new MovementProcessor(), 2);
@@ -101,8 +111,14 @@ class Game extends Flurry
             new InputComponent(),
             new DirectionComponent(),
             new CellComponent(1, 1),
-            new PositionComponent(),
-            new PartyComponent()
+            new PositionComponent()
+        ]);
+
+        // Entity which will hold components relating to the menu state
+        ui = entities.create();
+        components.set_many(ui, [
+            new PartyComponent(),
+            new PartyMemberSelectionComponent()
         ]);
     }
 

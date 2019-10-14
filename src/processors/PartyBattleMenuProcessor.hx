@@ -1,7 +1,8 @@
 package processors;
 
-import uk.aidanlee.flurry.api.maths.Vector;
 import slide.tweens.TweenObject;
+import geometry.NineSlice;
+import uk.aidanlee.flurry.api.maths.Vector;
 import clay.Entity;
 import components.PartyMemberAbilityComponent;
 import components.PartyMemberActionComponent;
@@ -49,6 +50,8 @@ class PartyBattleMenuProcessor extends Processor
 
     var geomArrowTween : TweenObject<Vector>;
 
+    var geomActionMenu : Geometry;
+
     public function new(_input : Input, _resources : ResourceSystem, _batcher : Batcher)
     {
         super();
@@ -85,10 +88,18 @@ class PartyBattleMenuProcessor extends Processor
 
         familyMemberAction = families.get('family-ui-member-action');
         familyMemberAction.onadded.add(function(_entity : Entity) {
-            trace('entering action menu');
+            final party = componentsParty.get(_entity);
+
+            geomActionMenu = new NineSlice({
+                batchers : [ batcher ],
+                textures : [ resources.get('ui', ImageResource) ],
+                uv : new Rectangle(16, 0, 48, 48),
+                left : 16, right : 16, top : 16, bottom : 16,
+                x : 8 + (party.selected * 48), y : 48, w : 48, h : 48
+            });
         });
         familyMemberAction.onremoved.add(function(_entity : Entity) {
-            trace('exiting action menu');
+            geomActionMenu.drop();
         });
 
         familyMemberAbility = families.get('family-ui-member-ability');

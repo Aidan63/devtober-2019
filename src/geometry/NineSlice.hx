@@ -48,13 +48,13 @@ class NineSlice extends Geometry
 
         final u1 =  _options.uv.x / texWidth;
         final u2 = (_options.uv.x + _options.left) / texWidth;
-        final u3 = (_options.uv.x + (_options.w - _options.right)) / texWidth;
-        final u4 = (_options.uv.x + _options.w) / texWidth;
+        final u3 = (_options.uv.x + (_options.uv.w - _options.right)) / texWidth;
+        final u4 = (_options.uv.x + _options.uv.w) / texWidth;
 
         final v1 =  _options.uv.y / texHeight;
         final v2 = (_options.uv.y + _options.top) / texHeight;
-        final v3 = (_options.uv.y + (_options.h - _options.bottom)) / texHeight;
-        final v4 = (_options.uv.y + _options.h) / texHeight;
+        final v3 = (_options.uv.y + (_options.uv.h - _options.bottom)) / texHeight;
+        final v4 = (_options.uv.y + _options.uv.h) / texHeight;
 
         vertices.resize(36);
 
@@ -70,7 +70,7 @@ class NineSlice extends Geometry
         vertices[6] = new Vertex( new Vector(x2, y1), color, new Vector(u2, v1) );
         vertices[7] = new Vertex( new Vector(x3, y1), color, new Vector(u3, v1) );
 
-        // Top Right\
+        // Top Right
         vertices[ 8] = new Vertex( new Vector(x3, y2), color, new Vector(u3, v2) );
         vertices[ 9] = new Vertex( new Vector(x4, y2), color, new Vector(u4, v2) );
         vertices[10] = new Vertex( new Vector(x3, y1), color, new Vector(u3, v1) );

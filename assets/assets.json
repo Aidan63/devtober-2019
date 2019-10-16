@@ -3,11 +3,13 @@
         "bytes"  : [],
         "texts"  : [
             { "id" : "map"        , "path" : "assets/maps/tiled.tmx" },
-            { "id" : "colored.tsx", "path" : "assets/maps/colored.tsx" }
+            { "id" : "colored.tsx", "path" : "assets/maps/colored.tsx" },
+            { "id" : "small.fnt"  , "path" : "assets/fonts/small.fnt" }
         ],
         "images" : [
-            { "id" : "tiles" , "path" : "assets/images/tiles.png" },
-            { "id" : "ui", "path" : "assets/images/ui.png" }
+            { "id" : "tiles"    , "path" : "assets/images/tiles.png" },
+            { "id" : "ui"       , "path" : "assets/images/ui.png" },
+            { "id" : "small.png", "path" : "assets/fonts/small.png" }
         ],
         "shaders" : [
             {
@@ -27,6 +29,6 @@
         ]
     },
     "parcels" : [
-        { "name" : "preload", "assets" : [ "map", "colored.tsx", "tiles", "ui", "textured", "solid" ], "depends" : [] }
+        { "name" : "preload", "assets" : [ "small.fnt", "small.png", "map", "colored.tsx", "tiles", "ui", "textured", "solid" ], "depends" : [] }
     ]
 }

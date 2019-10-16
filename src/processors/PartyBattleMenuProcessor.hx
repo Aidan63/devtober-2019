@@ -1,26 +1,24 @@
 package processors;
 
-import slide.tweens.TweenObject;
-import geometry.NineSlice;
-import uk.aidanlee.flurry.api.maths.Vector;
 import clay.Entity;
-import components.PartyMemberAbilityComponent;
+import clay.Family;
+import clay.Processor;
+import clay.Components;
+import slide.Slide;
+import slide.easing.Quad;
+import slide.tweens.TweenObject;
 import components.PartyMemberActionComponent;
 import components.PartyMemberSelectionComponent;
 import components.PartyComponent;
-import clay.Components;
-import clay.Family;
-import slide.easing.Quad;
-import uk.aidanlee.flurry.api.input.Keycodes;
+import uk.aidanlee.flurry.api.maths.Vector;
 import uk.aidanlee.flurry.api.maths.Rectangle;
+import uk.aidanlee.flurry.api.input.Input;
+import uk.aidanlee.flurry.api.input.Keycodes;
 import uk.aidanlee.flurry.api.resources.Resource.ImageResource;
 import uk.aidanlee.flurry.api.resources.ResourceSystem;
 import uk.aidanlee.flurry.api.gpu.batcher.Batcher;
 import uk.aidanlee.flurry.api.gpu.geometry.shapes.QuadGeometry;
 import uk.aidanlee.flurry.api.gpu.geometry.Geometry;
-import uk.aidanlee.flurry.api.input.Input;
-import clay.Processor;
-import slide.Slide;
 
 using tweenxcore.Tools;
 
@@ -34,23 +32,15 @@ class PartyBattleMenuProcessor extends Processor
 
     var familyMemberSelection : Family;
 
-    var familyMemberAction : Family;
-
     var familyMemberAbility : Family;
 
     var componentsParty : Components<PartyComponent>;
 
     var componentsMemberSelection : Components<PartyMemberSelectionComponent>;
 
-    var componentsMemberAction : Components<PartyMemberActionComponent>;
-
-    var componentsMemberAbility : Components<PartyMemberAbilityComponent>;
-
     var geomArrow : Geometry;
 
     var geomArrowTween : TweenObject<Vector>;
-
-    var geomActionMenu : Geometry;
 
     public function new(_input : Input, _resources : ResourceSystem, _batcher : Batcher)
     {
@@ -65,13 +55,17 @@ class PartyBattleMenuProcessor extends Processor
     {
         familyMemberSelection = families.get('family-ui-member-selection');
         familyMemberSelection.onadded.add(function(_entity : Entity) {
-            final party = componentsParty.get(_entity);
+            final party   = componentsParty.get(_entity);
+            final texture = resources.get('ui', ImageResource);
 
-            // Assuming the selected party member defaults to 0.
             geomArrow = new QuadGeometry({
                 batchers: [ batcher ],
-                textures: [ resources.get('ui', ImageResource) ],
-                uv: new Rectangle(0, 0.5, 0.25, 0.75),
+                textures: [ texture ],
+                uv: new Rectangle(
+                     0 / texture.width,
+                    32 / texture.height,
+                    16 / texture.width,
+                    48 / texture.height),
                 x : 24 + (party.selected * 48), y : 78, w : 16, h : 16
             });
             geomArrowTween = Slide.tween(geomArrow.position)
@@ -86,22 +80,6 @@ class PartyBattleMenuProcessor extends Processor
             geomArrowTween.stop();
         });
 
-        familyMemberAction = families.get('family-ui-member-action');
-        familyMemberAction.onadded.add(function(_entity : Entity) {
-            final party = componentsParty.get(_entity);
-
-            geomActionMenu = new NineSlice({
-                batchers : [ batcher ],
-                textures : [ resources.get('ui', ImageResource) ],
-                uv : new Rectangle(16, 0, 48, 48),
-                left : 16, right : 16, top : 16, bottom : 16,
-                x : 8 + (party.selected * 48), y : 48, w : 48, h : 48
-            });
-        });
-        familyMemberAction.onremoved.add(function(_entity : Entity) {
-            geomActionMenu.drop();
-        });
-
         familyMemberAbility = families.get('family-ui-member-ability');
         familyMemberAbility.onadded.add(function(_entity : Entity) {
             //
@@ -112,14 +90,11 @@ class PartyBattleMenuProcessor extends Processor
 
         componentsParty           = components.get_table(PartyComponent);
         componentsMemberSelection = components.get_table(PartyMemberSelectionComponent);
-        componentsMemberAction    = components.get_table(PartyMemberActionComponent);
-        componentsMemberAbility   = components.get_table(PartyMemberAbilityComponent);
+        // componentsMemberAbility   = components.get_table(PartyMemberAbilityComponent);
     }
 
     override function update(_dt : Float)
     {
-        Slide.step(_dt);
-
         for (entity in familyMemberSelection)
         {
             final party = componentsParty.get(entity);
@@ -137,17 +112,6 @@ class PartyBattleMenuProcessor extends Processor
 
             geomArrow.color.a = 1;
             geomArrow.position.x = 0.5.lerp(geomArrow.position.x, 24 + (party.selected * 48));
-        }
-
-        for (entity in familyMemberAction)
-        {
-            final party = componentsParty.get(entity);
-
-            if (input.wasKeyPressed(Keycodes.backspace))
-            {
-                components.remove(entity, PartyMemberActionComponent);
-                components.set(entity, new PartyMemberSelectionComponent());
-            }
         }
     }
 }

@@ -32,8 +32,6 @@ class PartyBattleMenuProcessor extends Processor
 
     var familyMemberSelection : Family;
 
-    var familyMemberAbility : Family;
-
     var componentsParty : Components<PartyComponent>;
 
     var componentsMemberSelection : Components<PartyMemberSelectionComponent>;
@@ -80,17 +78,8 @@ class PartyBattleMenuProcessor extends Processor
             geomArrowTween.stop();
         });
 
-        familyMemberAbility = families.get('family-ui-member-ability');
-        familyMemberAbility.onadded.add(function(_entity : Entity) {
-            //
-        });
-        familyMemberAbility.onremoved.add(function(_entity : Entity) {
-            //
-        });
-
         componentsParty           = components.get_table(PartyComponent);
         componentsMemberSelection = components.get_table(PartyMemberSelectionComponent);
-        // componentsMemberAbility   = components.get_table(PartyMemberAbilityComponent);
     }
 
     override function update(_dt : Float)
@@ -99,8 +88,8 @@ class PartyBattleMenuProcessor extends Processor
         {
             final party = componentsParty.get(entity);
 
-            if (input.wasKeyPressed(Keycodes.key_o)) party.selected--;
-            if (input.wasKeyPressed(Keycodes.key_p)) party.selected++;
+            if (input.wasKeyPressed(Keycodes.key_j)) party.selected--;
+            if (input.wasKeyPressed(Keycodes.key_l)) party.selected++;
             if (party.selected > party.members.length - 1) party.selected = 0;
             if (party.selected < 0) party.selected = party.members.length - 1;
 

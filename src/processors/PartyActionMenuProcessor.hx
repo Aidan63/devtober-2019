@@ -130,6 +130,13 @@ class PartyActionMenuProcessor extends Processor
             if (action.index > party.members[party.selected].actions.length - 1) action.index = 0;
             if (action.index < 0) action.index = party.members[party.selected].actions.length - 1;
 
+            geomActionIndicator.position.y = 0.75.lerp(geomActionIndicator.position.y, 8 + (action.index * 12));
+
+            for (i in 0...geomActionText.length)
+            {
+                geomActionText[i].position.x = 0.75.lerp(geomActionText[i].position.x, action.index == i ? 8 : 0);
+            }
+
             if (input.wasKeyPressed(Keycodes.enter))
             {
                 components.remove(entity, PartyMemberActionComponent);
@@ -139,13 +146,6 @@ class PartyActionMenuProcessor extends Processor
             {
                 components.remove(entity, PartyMemberActionComponent);
                 components.set(entity, new PartyMemberSelectionComponent());
-            }
-
-            geomActionIndicator.position.y = 0.75.lerp(geomActionIndicator.position.y, 8 + (action.index * 12));
-
-            for (i in 0...geomActionText.length)
-            {
-                geomActionText[i].position.x = 0.75.lerp(geomActionText[i].position.x, action.index == i ? 8 : 0);
             }
         }
     }

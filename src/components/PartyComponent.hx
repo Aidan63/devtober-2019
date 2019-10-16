@@ -29,7 +29,7 @@ private class PartyMember
 
     public final actions : Array<String>;
 
-    public final abilities:  Array<String>;
+    public final abilities : Array<Ability>;
 
     public function new(_maxHealth : Float, _maxSpecial : Float)
     {
@@ -38,6 +38,24 @@ private class PartyMember
         health     = maxHealth;
         special    = maxSpecial;
         actions    = [ 'strike', 'ability', 'guard' ];
-        abilities  = [ 'ability 1', 'ability 2', 'ability 3' ];
+        abilities  = [
+            new Ability('ability 1', 10),
+            new Ability('ability 2', 18),
+            new Ability('ability 3',  4),
+            new Ability('ability 4', 12)
+        ];
+    }
+}
+
+private class Ability
+{
+    public final name : String;
+
+    public final cost : Int;
+
+    public function new(_name : String, _cost : Int)
+    {
+        name = _name;
+        cost = _cost;
     }
 }

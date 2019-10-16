@@ -1,6 +1,7 @@
 package;
 
 import processors.PartyActionMenuProcessor;
+import processors.PartyAbilityMenuProcessor;
 import slide.Slide;
 import clay.Entity;
 import processors.MovementProcessor;
@@ -102,8 +103,9 @@ class Game extends Flurry
         processors.add(new PlayerCameraProcessor(), 3);
         processors.add(new WorldRendererProcessor(renderer, resources), 4);
         processors.add(new PartyRendererProcessor(resources, uiBatcher), 5);
-        processors.add(new PartyActionMenuProcessor(input, resources, uiBatcher), 6);
-        processors.add(new PartyBattleMenuProcessor(input, resources, uiBatcher), 7);
+        processors.add(new PartyAbilityMenuProcessor(input, resources, uiBatcher), 7);
+        processors.add(new PartyActionMenuProcessor(input, resources, uiBatcher), 7);
+        processors.add(new PartyBattleMenuProcessor(input, resources, uiBatcher), 8);
 
         // create map entities.
         createMap();

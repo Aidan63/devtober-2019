@@ -1,7 +1,9 @@
 package;
 
+import components.EnemyComponent;
 import processors.PartyActionMenuProcessor;
 import processors.PartyAbilityMenuProcessor;
+import processors.BattleDetectorProcessor;
 import slide.Slide;
 import clay.Entity;
 import processors.MovementProcessor;
@@ -53,8 +55,6 @@ class Game extends Flurry
 
     var player : Entity;
 
-    var ui : Entity;
-
     override function onConfig(_config : FlurryConfig) : FlurryConfig
     {
         _config.window.title  = 'Doom';
@@ -84,13 +84,13 @@ class Game extends Flurry
         
         families.create('family-input', [ InputComponent ]);
         families.create('family-cells', [ CellComponent ]);
-        families.create('family-party', [ PartyComponent ]);
         families.create('family-movement', [ InputComponent, DirectionComponent, CellComponent ]);
         families.create('family-smooth-movement', [ CellComponent, DirectionComponent, PositionComponent ]);
         families.create('family-walls', [ CellComponent, UVComponent ], [ BillboardComponent ]);
         families.create('family-billboards', [ CellComponent, UVComponent, BillboardComponent ]);
         families.create('family-map-floor', [ MapFloorComponent ]);
         families.create('family-map-data', [ MapDataComponent ]);
+        families.create('family-enemies', [ CellComponent, EnemyComponent ]);
 
         families.create('family-ui-party'           , [ PartyComponent ]);
         families.create('family-ui-member-selection', [ PartyComponent, PartyMemberSelectionComponent ]);
@@ -106,6 +106,7 @@ class Game extends Flurry
         processors.add(new PartyAbilityMenuProcessor(input, resources, uiBatcher), 7);
         processors.add(new PartyActionMenuProcessor(input, resources, uiBatcher), 7);
         processors.add(new PartyBattleMenuProcessor(input, resources, uiBatcher), 8);
+        processors.add(new BattleDetectorProcessor(), 9);
 
         // create map entities.
         createMap();
@@ -116,14 +117,9 @@ class Game extends Flurry
             new InputComponent(),
             new DirectionComponent(),
             new CellComponent(1, 1),
-            new PositionComponent()
-        ]);
-
-        // Entity which will hold components relating to the menu state
-        ui = entities.create();
-        components.set_many(ui, [
+            new PositionComponent(),
             new PartyComponent(),
-            new PartyMemberSelectionComponent()
+            // new PartyMemberSelectionComponent()
         ]);
     }
 
@@ -163,7 +159,7 @@ class Game extends Flurry
                                         final spriteRow = Std.int(gid / tilemap.tilesets[0].columns);
                                         final spriteCol = (gid % tilemap.tilesets[0].columns) - 1;
 
-                                        final comps : Array<Dynamic> = [
+                                        final comps : Array<Any> = [
                                             new CellComponent(row, col),
                                             new UVComponent(
                                                 (spriteCol * tilemap.tileWidth),
@@ -207,6 +203,35 @@ class Game extends Flurry
                             components.set(entities.create(), new MapFloorComponent(pos, uvs));
                     }
                 case LObjectGroup(group):
+                    if (group.name != 'Enemies') continue;
+
+                    for (object in group.objects)
+                    {
+                        final col = Std.int(object.y / object.height);
+                        final row = Std.int(object.x / object.width);
+                        var spriteRow = 1;
+                        var spriteCol = 1;
+
+                        switch object.objectType
+                        {
+                            case OTTile(gid):
+                                spriteRow = Std.int(gid / tilemap.tilesets[0].columns);
+                                spriteCol = (gid % tilemap.tilesets[0].columns) - 1;
+                            case _other:
+                                throw 'enemy object should be a tile type not $_other';
+                        }
+
+                        components.set_many(entities.create(), [
+                            new CellComponent(row, col),
+                            new UVComponent(
+                                (spriteCol * tilemap.tileWidth),
+                                (spriteRow * tilemap.tileHeight),
+                                tilemap.tileWidth,
+                                tilemap.tileHeight),
+                            new BillboardComponent(),
+                            new EnemyComponent()
+                        ]);
+                    }
                 case LImageLayer(layer):
                 case LGroup(group):
             }

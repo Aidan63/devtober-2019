@@ -144,8 +144,8 @@ class PartyAbilityMenuProcessor extends Processor
             final party   = componentsParty.get(entity);
             final ability = componentsMemberAbility.get(entity);
 
-            if (input.wasKeyPressed(Keycodes.key_i)) ability.index--;
-            if (input.wasKeyPressed(Keycodes.key_k)) ability.index++;
+            if (input.wasKeyPressed(Keycodes.key_w)) ability.index--;
+            if (input.wasKeyPressed(Keycodes.key_s)) ability.index++;
             if (ability.index > party.members[party.selected].abilities.length - 1) ability.index = 0;
             if (ability.index < 0) ability.index = party.members[party.selected].abilities.length - 1;
 

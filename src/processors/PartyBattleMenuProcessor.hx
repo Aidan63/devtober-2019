@@ -88,8 +88,8 @@ class PartyBattleMenuProcessor extends Processor
         {
             final party = componentsParty.get(entity);
 
-            if (input.wasKeyPressed(Keycodes.key_j)) party.selected--;
-            if (input.wasKeyPressed(Keycodes.key_l)) party.selected++;
+            if (input.wasKeyPressed(Keycodes.key_a)) party.selected--;
+            if (input.wasKeyPressed(Keycodes.key_d)) party.selected++;
             if (party.selected > party.members.length - 1) party.selected = 0;
             if (party.selected < 0) party.selected = party.members.length - 1;
 

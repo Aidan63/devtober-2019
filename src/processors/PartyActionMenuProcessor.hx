@@ -125,8 +125,8 @@ class PartyActionMenuProcessor extends Processor
             final party  = componentsParty.get(entity);
             final action = componentsMemberAction.get(entity);
 
-            if (input.wasKeyPressed(Keycodes.key_i)) action.index--;
-            if (input.wasKeyPressed(Keycodes.key_k)) action.index++;
+            if (input.wasKeyPressed(Keycodes.key_w)) action.index--;
+            if (input.wasKeyPressed(Keycodes.key_s)) action.index++;
             if (action.index > party.members[party.selected].actions.length - 1) action.index = 0;
             if (action.index < 0) action.index = party.members[party.selected].actions.length - 1;
 

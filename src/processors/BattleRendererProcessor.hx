@@ -94,6 +94,18 @@ class BattleRendererProcessor extends Processor
 
     function onBattleEnded(_entity : Entity)
     {
-        //
+        geomHealthBar.drop();
+        geomHealthBarFrame.drop();
+        geomTitle.drop();
+    }
+
+    override function update(_dt : Float)
+    {
+        for (entity in familyOpponents)
+        {
+            final enemy = componentsEnemy.get(entity);
+
+            geomHealthBar.set_xywh(19, 19, 122 * (enemy.health / enemy.maxHealth), 10);
+        }
     }
 }

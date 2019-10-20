@@ -93,7 +93,7 @@ class PartyBattleMenuProcessor extends Processor
             if (party.selected > party.members.length - 1) party.selected = 0;
             if (party.selected < 0) party.selected = party.members.length - 1;
 
-            if (input.wasKeyPressed(Keycodes.enter))
+            if (input.wasKeyPressed(Keycodes.enter) && !party.members[party.selected].turnTaken)
             {
                 components.remove(entity, PartyMemberSelectionComponent);
                 components.set(entity, new PartyMemberActionComponent());

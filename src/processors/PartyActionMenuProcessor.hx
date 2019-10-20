@@ -1,5 +1,6 @@
 package processors;
 
+import components.EnemyComponent;
 import uk.aidanlee.flurry.api.gpu.geometry.shapes.QuadGeometry;
 import uk.aidanlee.flurry.api.gpu.geometry.Color;
 import uk.aidanlee.flurry.api.resources.Resource.TextResource;
@@ -40,11 +41,15 @@ class PartyActionMenuProcessor extends Processor
 
     var familyMemberAction : Family;
 
+    var familyEnemies : Family;
+
     var componentsParty : Components<PartyComponent>;
 
     var componentsMemberSelection : Components<PartyMemberSelectionComponent>;
 
     var componentsMemberAction : Components<PartyMemberActionComponent>;
+
+    var componentsEnemy : Components<EnemyComponent>;
 
     var geomActionMenu : Geometry;
 
@@ -112,10 +117,12 @@ class PartyActionMenuProcessor extends Processor
 
             geomActionText.resize(0);
         });
+        familyEnemies = families.get('family-enemies');
 
         componentsParty           = components.get_table(PartyComponent);
         componentsMemberSelection = components.get_table(PartyMemberSelectionComponent);
         componentsMemberAction    = components.get_table(PartyMemberActionComponent);
+        componentsEnemy           = components.get_table(EnemyComponent);
     }
 
     override function update(_dt : Float)
@@ -139,8 +146,26 @@ class PartyActionMenuProcessor extends Processor
 
             if (input.wasKeyPressed(Keycodes.enter))
             {
-                components.remove(entity, PartyMemberActionComponent);
-                components.set(entity, new PartyMemberAbilityComponent());
+                switch action.index
+                {
+                    case 0:
+                        for (enemy in familyEnemies)
+                        {
+                            final enemyData = componentsEnemy.get(enemy);
+
+                            enemyData.health -= 10;
+                        }
+
+                        components.remove(entity, PartyMemberActionComponent);
+                        components.set(entity, new PartyMemberSelectionComponent());
+                        
+                        party.members[party.selected].turnTaken = true;
+                    case 1:
+                        components.remove(entity, PartyMemberActionComponent);
+                        components.set(entity, new PartyMemberAbilityComponent());
+                    case 2:
+                        //
+                }
             }
             if (input.wasKeyPressed(Keycodes.backspace))
             {

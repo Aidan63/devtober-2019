@@ -27,6 +27,8 @@ private class PartyMember
 
     public var special : Float;
 
+    public var turnTaken : Bool;
+
     public final actions : Array<String>;
 
     public final abilities : Array<Ability>;
@@ -37,6 +39,7 @@ private class PartyMember
         maxSpecial = _maxSpecial;
         health     = maxHealth;
         special    = maxSpecial;
+        turnTaken  = false;
         actions    = [ 'strike', 'ability', 'guard' ];
         abilities  = [
             new Ability('ability 1', 10),

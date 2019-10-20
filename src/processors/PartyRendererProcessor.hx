@@ -61,6 +61,12 @@ class PartyRendererProcessor extends Processor
 
             for (i in 0...party.members.length)
             {
+                final alpha = party.members[i].turnTaken ? 0.75 : 1.0;
+                faces[i].color.a = alpha;
+                frames[i].color.a = alpha;
+                healthBars[i].color.a = alpha;
+                specialBars[i].color.a = alpha;
+
                 final healthBarWidth  = Maths.ceil((party.members[i].health / party.members[i].maxHealth) * 10);
                 final specialBarWidth = Maths.ceil((party.members[i].special / party.members[i].maxSpecial) * 10);
 

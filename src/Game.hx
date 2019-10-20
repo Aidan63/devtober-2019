@@ -1,11 +1,11 @@
 package;
 
-import components.EnemyComponent;
-import processors.PartyActionMenuProcessor;
-import processors.PartyAbilityMenuProcessor;
-import processors.BattleDetectorProcessor;
 import slide.Slide;
 import clay.Entity;
+import clay.core.ProcessorManager;
+import clay.core.FamilyManager;
+import clay.core.ComponentManager;
+import clay.core.EntityManager;
 import processors.MovementProcessor;
 import processors.PlayerCameraProcessor;
 import processors.InputProcessor;
@@ -13,6 +13,10 @@ import processors.WorldRendererProcessor;
 import processors.PartyRendererProcessor;
 import processors.MapDataProcessor;
 import processors.PartyBattleMenuProcessor;
+import processors.BattleRendererProcessor;
+import processors.PartyActionMenuProcessor;
+import processors.PartyAbilityMenuProcessor;
+import processors.BattleDetectorProcessor;
 import components.BillboardComponent;
 import components.UVComponent;
 import components.PositionComponent;
@@ -25,10 +29,8 @@ import components.PartyComponent;
 import components.PartyMemberSelectionComponent;
 import components.PartyMemberActionComponent;
 import components.PartyMemberAbilityComponent;
-import clay.core.ProcessorManager;
-import clay.core.FamilyManager;
-import clay.core.ComponentManager;
-import clay.core.EntityManager;
+import components.EnemyBattleComponent;
+import components.EnemyComponent;
 import uk.aidanlee.flurry.FlurryConfig;
 import uk.aidanlee.flurry.Flurry;
 import uk.aidanlee.flurry.api.resources.Resource.TextResource;
@@ -91,6 +93,7 @@ class Game extends Flurry
         families.create('family-map-floor', [ MapFloorComponent ]);
         families.create('family-map-data', [ MapDataComponent ]);
         families.create('family-enemies', [ CellComponent, EnemyComponent ]);
+        families.create('family-opponents', [ EnemyComponent, EnemyBattleComponent ]);
 
         families.create('family-ui-party'           , [ PartyComponent ]);
         families.create('family-ui-member-selection', [ PartyComponent, PartyMemberSelectionComponent ]);
@@ -103,10 +106,11 @@ class Game extends Flurry
         processors.add(new PlayerCameraProcessor(), 3);
         processors.add(new WorldRendererProcessor(renderer, resources), 4);
         processors.add(new PartyRendererProcessor(resources, uiBatcher), 5);
+        processors.add(new BattleRendererProcessor(resources, uiBatcher), 6);
         processors.add(new PartyAbilityMenuProcessor(input, resources, uiBatcher), 7);
-        processors.add(new PartyActionMenuProcessor(input, resources, uiBatcher), 7);
-        processors.add(new PartyBattleMenuProcessor(input, resources, uiBatcher), 8);
-        processors.add(new BattleDetectorProcessor(), 9);
+        processors.add(new PartyActionMenuProcessor(input, resources, uiBatcher), 8);
+        processors.add(new PartyBattleMenuProcessor(input, resources, uiBatcher), 9);
+        processors.add(new BattleDetectorProcessor(), 10);
 
         // create map entities.
         createMap();
@@ -118,8 +122,7 @@ class Game extends Flurry
             new DirectionComponent(),
             new CellComponent(1, 1),
             new PositionComponent(),
-            new PartyComponent(),
-            // new PartyMemberSelectionComponent()
+            new PartyComponent()
         ]);
     }
 

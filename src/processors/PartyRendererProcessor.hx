@@ -98,7 +98,7 @@ class PartyRendererProcessor extends Processor
                 batchers : [ batcher ],
                 textures : [ texture ],
                 uv : new Rectangle(
-                        3 / texture.width,
+                    3 / texture.width,
                     19 / texture.height,
                     13 / texture.width,
                     23 / texture.height
@@ -110,7 +110,7 @@ class PartyRendererProcessor extends Processor
                 batchers : [ batcher ],
                 textures : [ texture ],
                 uv : new Rectangle(
-                        3 / texture.width,
+                    3 / texture.width,
                     28 / texture.height,
                     13 / texture.width,
                     29 / texture.height

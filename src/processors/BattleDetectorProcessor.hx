@@ -1,9 +1,11 @@
 package processors;
 
+import clay.Entity;
 import components.PartyMemberSelectionComponent;
 import components.InputComponent;
 import components.DirectionComponent;
 import components.CellComponent;
+import components.EnemyBattleComponent;
 import clay.Components;
 import clay.Family;
 import clay.Processor;
@@ -40,32 +42,22 @@ class BattleDetectorProcessor extends Processor
 
                 switch direction.facing
                 {
-                    case Up:
-                        if (enemyCell.column == playerCell.column && enemyCell.row == playerCell.row - 2)
-                        {
-                            components.remove(party, InputComponent);
-                            components.set(party, new PartyMemberSelectionComponent());
-                        }
-                    case Left:
-                        if (enemyCell.column == playerCell.column - 2 && enemyCell.row == playerCell.row)
-                        {
-                            components.remove(party, InputComponent);
-                            components.set(party, new PartyMemberSelectionComponent());
-                        }
-                    case Down:
-                        if (enemyCell.column == playerCell.column && enemyCell.row == playerCell.row + 2)
-                        {
-                            components.remove(party, InputComponent);
-                            components.set(party, new PartyMemberSelectionComponent());
-                        }
-                    case Right:
-                        if (enemyCell.column == playerCell.column + 2 && enemyCell.row == playerCell.row)
-                        {
-                            components.remove(party, InputComponent);
-                            components.set(party, new PartyMemberSelectionComponent());
-                        }
+                    case Up    : checkForBattle(playerCell.row - 2, playerCell.column, enemyCell.row, enemyCell.column, party, enemy);
+                    case Left  : checkForBattle(playerCell.row, playerCell.column - 2, enemyCell.row, enemyCell.column, party, enemy);
+                    case Down  : checkForBattle(playerCell.row + 2, playerCell.column, enemyCell.row, enemyCell.column, party, enemy);
+                    case Right : checkForBattle(playerCell.row, playerCell.column + 2, enemyCell.row, enemyCell.column, party, enemy);
                 }
             }
+        }
+    }
+
+    function checkForBattle(_playerRow : Float, _playerColumn : Float, _enemyRow : Float, _enemyColumn : Float, _player : Entity, _enemy : Entity)
+    {
+        if (_enemyColumn == _playerColumn && _enemyRow == _playerRow)
+        {
+            components.remove(_player, InputComponent);
+            components.set(_player, new PartyMemberSelectionComponent());
+            components.set(_enemy, new EnemyBattleComponent());
         }
     }
 }

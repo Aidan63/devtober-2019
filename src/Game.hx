@@ -1,5 +1,6 @@
 package;
 
+import components.EnemyBattleComponent;
 import slide.Slide;
 import clay.Entity;
 import clay.core.ProcessorManager;
@@ -29,7 +30,7 @@ import components.PartyComponent;
 import components.PartyMemberSelectionComponent;
 import components.PartyMemberActionComponent;
 import components.PartyMemberAbilityComponent;
-import components.EnemyBattleComponent;
+import components.EnemyTurnComponent;
 import components.EnemyComponent;
 import uk.aidanlee.flurry.FlurryConfig;
 import uk.aidanlee.flurry.Flurry;
@@ -63,6 +64,7 @@ class Game extends Flurry
         _config.window.width  = 320;
         _config.window.height = 240;
 
+        _config.renderer.backend = Ogl4;
         _config.renderer.clearColour.fromRGBA(0.278, 0.176, 0.235, 1.0);
 
         _config.resources.preload = PrePackaged('preload');
@@ -79,7 +81,7 @@ class Game extends Flurry
             depth  : 1
         });
 
-        entities   = new EntityManager(16384);
+        entities   = new EntityManager(1024);
         components = new ComponentManager(entities);
         families   = new FamilyManager(components);
         processors = new ProcessorManager(entities, components, families);
@@ -94,6 +96,7 @@ class Game extends Flurry
         families.create('family-map-data', [ MapDataComponent ]);
         families.create('family-enemies', [ CellComponent, EnemyComponent ]);
         families.create('family-opponents', [ EnemyComponent, EnemyBattleComponent ]);
+        families.create('family-enemy-turns', [ EnemyComponent, EnemyTurnComponent, EnemyBattleComponent ]);
 
         families.create('family-ui-party'           , [ PartyComponent ]);
         families.create('family-ui-member-selection', [ PartyComponent, PartyMemberSelectionComponent ]);

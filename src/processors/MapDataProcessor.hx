@@ -25,6 +25,7 @@ class MapDataProcessor extends Processor
         componentsCells   = components.get_table(CellComponent);
 
         familyCells.onadded.add(onCellAdded);
+        familyCells.onadded.add(onCellRemoved);
     }
 
     function onCellAdded(_entity : Entity)
@@ -35,6 +36,17 @@ class MapDataProcessor extends Processor
             final cell    = componentsCells.get(_entity);
 
             mapData.data[cell.column][cell.row] = _entity.id;
+        }
+    }
+
+    function onCellRemoved(_entity : Entity)
+    {
+        for (map in familyMapData)
+        {
+            final mapData = componentsMapData.get(map);
+            final cell    = componentsCells.get(_entity);
+
+            mapData.data[cell.column][cell.row] = Entity.ID_NULL;
         }
     }
 }

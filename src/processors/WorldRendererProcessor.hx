@@ -36,11 +36,11 @@ class WorldRendererProcessor extends Processor
 
     final camera : Camera3D;
 
-    final wallGeometry : Array<Geometry>;
+    var wallGeometry : Array<Geometry>;
 
-    final billboardGeometry : Array<Geometry>;
+    var billboardGeometry : Array<Null<Geometry>>;
 
-    final floorGeometry : Array<Geometry>;
+    var floorGeometry : Array<Geometry>;
 
     var familyWalls : Family;
 
@@ -76,14 +76,14 @@ class WorldRendererProcessor extends Processor
                 depthFunction : LessThan
             }
         });
-
-        wallGeometry      = [];
-        billboardGeometry = [];
-        floorGeometry     = [];
     }
 
     override function onadded()
     {
+        wallGeometry      = [];
+        billboardGeometry = [ for (_ in 0...entities.capacity) null ];
+        floorGeometry     = [];
+
         familyWalls      = families.get('family-walls');
         familyBillboards = families.get('family-billboards');
         familyMovement   = families.get('family-smooth-movement');
@@ -96,8 +96,10 @@ class WorldRendererProcessor extends Processor
         componentsMapFloor  = components.get_table(MapFloorComponent);
 
         familyWalls.onadded.add(createWall);
-        familyBillboards.onadded.add(createBillboard);
         familyFloor.onadded.add(createFloor);
+
+        familyBillboards.onadded.add(createBillboard);
+        familyBillboards.onremoved.add(removeBillboard);
     }
 
     override function update(_dt : Float)
@@ -114,8 +116,15 @@ class WorldRendererProcessor extends Processor
             camera.update(_dt);
         }
         
-        for (geom in billboardGeometry)
+        for (i in 0...billboardGeometry.length)
         {
+            if (billboardGeometry[i] == null)
+            {
+                continue;
+            }
+
+            final geom = billboardGeometry[i];
+
             geom.depth = -sorter.copyFrom(camera.transformation.position).subtract(geom.transformation.position).length;
             geom.transformation.rotation.setFromAxisAngle(
                 up,
@@ -173,7 +182,13 @@ class WorldRendererProcessor extends Processor
             0,
             8 + cell.row * 16);
 
-        billboardGeometry.push(geom);
+        billboardGeometry[_entity.id] = geom;
+    }
+
+    function removeBillboard(_entity : Entity)
+    {
+        billboardGeometry[_entity.id].drop();
+        billboardGeometry[_entity.id] = null;
     }
 
     function createFloor(_entity : Entity)

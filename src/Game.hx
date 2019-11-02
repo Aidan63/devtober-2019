@@ -64,7 +64,6 @@ class Game extends Flurry
         _config.window.width  = 320;
         _config.window.height = 240;
 
-        _config.renderer.backend = Ogl4;
         _config.renderer.clearColour.fromRGBA(0.278, 0.176, 0.235, 1.0);
 
         _config.resources.preload = PrePackaged('preload');

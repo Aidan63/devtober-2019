@@ -20,7 +20,7 @@ import components.PartyComponent;
 import clay.Components;
 import uk.aidanlee.flurry.api.gpu.batcher.Batcher;
 import uk.aidanlee.flurry.api.maths.Rectangle;
-import uk.aidanlee.flurry.api.maths.Vector;
+import uk.aidanlee.flurry.api.maths.Vector3;
 import uk.aidanlee.flurry.api.resources.ResourceSystem;
 import uk.aidanlee.flurry.api.input.Input;
 import clay.Processor;
@@ -100,7 +100,7 @@ class PartyActionMenuProcessor extends Processor
                     color    : colour,
                     font     : font,
                     text     : party.members[party.selected].actions[i],
-                    position : new Vector(8, 9 + (i * 12))
+                    position : new Vector3(8, 9 + (i * 12))
                 });
                 t.transformation.parent = geomActionMenu.transformation;
                 t;

@@ -21,7 +21,7 @@ import uk.aidanlee.flurry.api.gpu.batcher.Batcher;
 import uk.aidanlee.flurry.api.resources.ResourceSystem;
 import uk.aidanlee.flurry.api.input.Input;
 import uk.aidanlee.flurry.api.maths.Rectangle;
-import uk.aidanlee.flurry.api.maths.Vector;
+import uk.aidanlee.flurry.api.maths.Vector3;
 import clay.Processor;
 
 using tweenxcore.Tools;
@@ -97,7 +97,7 @@ class PartyAbilityMenuProcessor extends Processor
                         color    : colour,
                         font     : font,
                         text     : party.members[party.selected].abilities[i].name,
-                        position : new Vector(8, 11 + (i * 12))
+                        position : new Vector3(8, 11 + (i * 12))
                     });
                     t.transformation.parent = geomAbilityMenu.transformation;
                     t;
@@ -111,7 +111,7 @@ class PartyAbilityMenuProcessor extends Processor
                         color    : colour,
                         font     : font,
                         text     : '${party.members[party.selected].abilities[i].cost} mp',
-                        position : new Vector(96, 11 + (i * 12))
+                        position : new Vector3(96, 11 + (i * 12))
                     });
                     t.transformation.parent = geomAbilityMenu.transformation;
                     t;

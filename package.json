@@ -1,0 +1,22 @@
+{
+  "name": "devtober-2019",
+  "version": "1.0.0",
+  "description": "![final gif](devtober-2019-final.gif)",
+  "dependencies": {
+    "lix": "git+https://git@github.com/aidan63/lix.client.git"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "postinstall": "npx lix download"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aidan63/devtober-2019.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aidan63/devtober-2019/issues"
+  },
+  "homepage": "https://github.com/Aidan63/devtober-2019#readme"
+}

@@ -15,7 +15,7 @@ import uk.aidanlee.flurry.api.resources.Resource.ImageResource;
 import uk.aidanlee.flurry.api.gpu.batcher.Batcher;
 import uk.aidanlee.flurry.api.resources.ResourceSystem;
 import uk.aidanlee.flurry.api.maths.Rectangle;
-import uk.aidanlee.flurry.api.maths.Vector;
+import uk.aidanlee.flurry.api.maths.Vector3;
 import clay.Processor;
 
 class BattleRendererProcessor extends Processor
@@ -88,7 +88,7 @@ class BattleRendererProcessor extends Processor
             color    : colour,
             font     : font,
             text     : enemy.name,
-            position : new Vector(20, 6)
+            position : new Vector3(20, 6)
         });
     }
 

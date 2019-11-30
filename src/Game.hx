@@ -39,7 +39,7 @@ import uk.aidanlee.flurry.api.resources.Resource.ShaderResource;
 import uk.aidanlee.flurry.api.gpu.batcher.Batcher;
 import uk.aidanlee.flurry.api.gpu.camera.Camera2D;
 import uk.aidanlee.flurry.api.maths.Rectangle;
-import uk.aidanlee.flurry.api.maths.Vector;
+import uk.aidanlee.flurry.api.maths.Vector3;
 import format.tmx.Reader;
 
 class Game extends Flurry
@@ -195,7 +195,7 @@ class Game extends Flurry
                                         final spriteRow = Std.int(gid / tilemap.tilesets[0].columns);
                                         final spriteCol = (gid % tilemap.tilesets[0].columns) - 1;
 
-                                        pos.push(new Vector(col * tilemap.tileWidth, row * tilemap.tileHeight));
+                                        pos.push(new Vector3(col * tilemap.tileWidth, row * tilemap.tileHeight));
                                         uvs.push(new Rectangle(
                                             (spriteCol * tilemap.tileWidth),
                                             (spriteRow * tilemap.tileHeight),

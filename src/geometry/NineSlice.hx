@@ -2,7 +2,8 @@ package geometry;
 
 import uk.aidanlee.flurry.api.gpu.geometry.Vertex;
 import uk.aidanlee.flurry.api.maths.Rectangle;
-import uk.aidanlee.flurry.api.maths.Vector;
+import uk.aidanlee.flurry.api.maths.Vector3;
+import uk.aidanlee.flurry.api.maths.Vector2;
 import uk.aidanlee.flurry.api.gpu.geometry.Geometry;
 
 typedef NineSliceOptions = {
@@ -59,58 +60,58 @@ class NineSlice extends Geometry
         vertices.resize(36);
 
         // Top Left
-        vertices[0] = new Vertex( new Vector(x1, y2), color, new Vector(u1, v2) );
-        vertices[1] = new Vertex( new Vector(x2, y2), color, new Vector(u2, v2) );
-        vertices[2] = new Vertex( new Vector(x1, y1), color, new Vector(u1, v1) );
-        vertices[3] = new Vertex( new Vector(x2, y1), color, new Vector(u2, v1) );
+        vertices[0] = new Vertex( new Vector3(x1, y2), color, new Vector2(u1, v2) );
+        vertices[1] = new Vertex( new Vector3(x2, y2), color, new Vector2(u2, v2) );
+        vertices[2] = new Vertex( new Vector3(x1, y1), color, new Vector2(u1, v1) );
+        vertices[3] = new Vertex( new Vector3(x2, y1), color, new Vector2(u2, v1) );
 
         // Top Middle
-        vertices[4] = new Vertex( new Vector(x2, y2), color, new Vector(u2, v2) );
-        vertices[5] = new Vertex( new Vector(x3, y2), color, new Vector(u3, v2) );
-        vertices[6] = new Vertex( new Vector(x2, y1), color, new Vector(u2, v1) );
-        vertices[7] = new Vertex( new Vector(x3, y1), color, new Vector(u3, v1) );
+        vertices[4] = new Vertex( new Vector3(x2, y2), color, new Vector2(u2, v2) );
+        vertices[5] = new Vertex( new Vector3(x3, y2), color, new Vector2(u3, v2) );
+        vertices[6] = new Vertex( new Vector3(x2, y1), color, new Vector2(u2, v1) );
+        vertices[7] = new Vertex( new Vector3(x3, y1), color, new Vector2(u3, v1) );
 
         // Top Right
-        vertices[ 8] = new Vertex( new Vector(x3, y2), color, new Vector(u3, v2) );
-        vertices[ 9] = new Vertex( new Vector(x4, y2), color, new Vector(u4, v2) );
-        vertices[10] = new Vertex( new Vector(x3, y1), color, new Vector(u3, v1) );
-        vertices[11] = new Vertex( new Vector(x4, y1), color, new Vector(u4, v1) );
+        vertices[ 8] = new Vertex( new Vector3(x3, y2), color, new Vector2(u3, v2) );
+        vertices[ 9] = new Vertex( new Vector3(x4, y2), color, new Vector2(u4, v2) );
+        vertices[10] = new Vertex( new Vector3(x3, y1), color, new Vector2(u3, v1) );
+        vertices[11] = new Vertex( new Vector3(x4, y1), color, new Vector2(u4, v1) );
 
         // Middle Left
-        vertices[12] = new Vertex( new Vector(x1, y3), color, new Vector(u1, v3) );
-        vertices[13] = new Vertex( new Vector(x2, y3), color, new Vector(u2, v3) );
-        vertices[14] = new Vertex( new Vector(x1, y2), color, new Vector(u1, v2) );
-        vertices[15] = new Vertex( new Vector(x2, y2), color, new Vector(u2, v2) );
+        vertices[12] = new Vertex( new Vector3(x1, y3), color, new Vector2(u1, v3) );
+        vertices[13] = new Vertex( new Vector3(x2, y3), color, new Vector2(u2, v3) );
+        vertices[14] = new Vertex( new Vector3(x1, y2), color, new Vector2(u1, v2) );
+        vertices[15] = new Vertex( new Vector3(x2, y2), color, new Vector2(u2, v2) );
 
         // Middle Middle
-        vertices[16] = new Vertex( new Vector(x2, y3), color, new Vector(u2, v3) );
-        vertices[17] = new Vertex( new Vector(x3, y3), color, new Vector(u3, v3) );
-        vertices[18] = new Vertex( new Vector(x2, y2), color, new Vector(u2, v2) );
-        vertices[19] = new Vertex( new Vector(x3, y2), color, new Vector(u3, v2) );
+        vertices[16] = new Vertex( new Vector3(x2, y3), color, new Vector2(u2, v3) );
+        vertices[17] = new Vertex( new Vector3(x3, y3), color, new Vector2(u3, v3) );
+        vertices[18] = new Vertex( new Vector3(x2, y2), color, new Vector2(u2, v2) );
+        vertices[19] = new Vertex( new Vector3(x3, y2), color, new Vector2(u3, v2) );
 
         // Middle Right
-        vertices[20] = new Vertex( new Vector(x3, y3), color, new Vector(u3, v3) );
-        vertices[21] = new Vertex( new Vector(x4, y3), color, new Vector(u4, v3) );
-        vertices[22] = new Vertex( new Vector(x3, y2), color, new Vector(u3, v2) );
-        vertices[23] = new Vertex( new Vector(x4, y2), color, new Vector(u4, v2) );
+        vertices[20] = new Vertex( new Vector3(x3, y3), color, new Vector2(u3, v3) );
+        vertices[21] = new Vertex( new Vector3(x4, y3), color, new Vector2(u4, v3) );
+        vertices[22] = new Vertex( new Vector3(x3, y2), color, new Vector2(u3, v2) );
+        vertices[23] = new Vertex( new Vector3(x4, y2), color, new Vector2(u4, v2) );
 
         // Bottom Left
-        vertices[24] = new Vertex( new Vector(x1, y4), color, new Vector(u1, v4) );
-        vertices[25] = new Vertex( new Vector(x2, y4), color, new Vector(u2, v4) );
-        vertices[26] = new Vertex( new Vector(x1, y3), color, new Vector(u1, v3) );
-        vertices[27] = new Vertex( new Vector(x2, y3), color, new Vector(u2, v3) );
+        vertices[24] = new Vertex( new Vector3(x1, y4), color, new Vector2(u1, v4) );
+        vertices[25] = new Vertex( new Vector3(x2, y4), color, new Vector2(u2, v4) );
+        vertices[26] = new Vertex( new Vector3(x1, y3), color, new Vector2(u1, v3) );
+        vertices[27] = new Vertex( new Vector3(x2, y3), color, new Vector2(u2, v3) );
 
         // Bottom Middle
-        vertices[28] = new Vertex( new Vector(x2, y4), color, new Vector(u2, v4) );
-        vertices[29] = new Vertex( new Vector(x3, y4), color, new Vector(u3, v4) );
-        vertices[30] = new Vertex( new Vector(x2, y3), color, new Vector(u2, v3) );
-        vertices[31] = new Vertex( new Vector(x3, y3), color, new Vector(u3, v3) );
+        vertices[28] = new Vertex( new Vector3(x2, y4), color, new Vector2(u2, v4) );
+        vertices[29] = new Vertex( new Vector3(x3, y4), color, new Vector2(u3, v4) );
+        vertices[30] = new Vertex( new Vector3(x2, y3), color, new Vector2(u2, v3) );
+        vertices[31] = new Vertex( new Vector3(x3, y3), color, new Vector2(u3, v3) );
 
         // Bottom Right
-        vertices[32] = new Vertex( new Vector(x3, y4), color, new Vector(u3, v4) );
-        vertices[33] = new Vertex( new Vector(x4, y4), color, new Vector(u4, v4) );
-        vertices[34] = new Vertex( new Vector(x3, y3), color, new Vector(u3, v3) );
-        vertices[35] = new Vertex( new Vector(x4, y3), color, new Vector(u4, v3) );
+        vertices[32] = new Vertex( new Vector3(x3, y4), color, new Vector2(u3, v4) );
+        vertices[33] = new Vertex( new Vector3(x4, y4), color, new Vector2(u4, v4) );
+        vertices[34] = new Vertex( new Vector3(x3, y3), color, new Vector2(u3, v3) );
+        vertices[35] = new Vertex( new Vector3(x4, y3), color, new Vector2(u4, v3) );
 
         indices.resize(54);
 

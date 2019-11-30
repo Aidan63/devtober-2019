@@ -4,17 +4,14 @@
 
 ## Install
 
-Lix package manager can easily download all dependencies. My fork must be used though, as official lix doesn't support cloning git submodules.
-
 ```
-npm install git+https://git@github.com/aidan63/lix.client.git --global
-lix download 
+npm install
 ```
 
 ## Run
 
 ```
-lix run build run
+npx lix run build run
 ```
 
 ## Post-Mortem

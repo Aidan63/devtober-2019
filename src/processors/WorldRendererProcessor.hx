@@ -16,7 +16,8 @@ import uk.aidanlee.flurry.api.gpu.geometry.Geometry;
 import uk.aidanlee.flurry.api.gpu.geometry.Vertex;
 import uk.aidanlee.flurry.api.gpu.geometry.Color;
 import uk.aidanlee.flurry.api.maths.Maths;
-import uk.aidanlee.flurry.api.maths.Vector;
+import uk.aidanlee.flurry.api.maths.Vector3;
+import uk.aidanlee.flurry.api.maths.Vector2;
 import uk.aidanlee.flurry.api.maths.Rectangle;
 import uk.aidanlee.flurry.api.resources.ResourceSystem;
 import uk.aidanlee.flurry.api.resources.Resource.ShaderResource;
@@ -24,9 +25,9 @@ import uk.aidanlee.flurry.api.resources.Resource.ImageResource;
 
 class WorldRendererProcessor extends Processor
 {
-    final up = new Vector(0, 1, 0);
+    final up = new Vector3(0, 1, 0);
 
-    final sorter = new Vector();
+    final sorter = new Vector3();
 
     final renderer : Renderer;
 
@@ -170,14 +171,14 @@ class WorldRendererProcessor extends Processor
             batchers : [ batcher ],
             textures : [ tex ],
             vertices : [
-                new Vertex( new Vector(-8,  0,  0), colour, new Vector(u1, v1) ),
-                new Vertex( new Vector( 8,  0,  0), colour, new Vector(u2, v1) ),
-                new Vertex( new Vector( 8, 16,  0), colour, new Vector(u2, v2) ),
-                new Vertex( new Vector(-8, 16,  0), colour, new Vector(u1, v2) )
+                new Vertex( new Vector3(-8,  0,  0), colour, new Vector2(u1, v1) ),
+                new Vertex( new Vector3( 8,  0,  0), colour, new Vector2(u2, v1) ),
+                new Vertex( new Vector3( 8, 16,  0), colour, new Vector2(u2, v2) ),
+                new Vertex( new Vector3(-8, 16,  0), colour, new Vector2(u1, v2) )
             ],
             indices : [ 0, 1, 2, 2, 3, 0 ]
         });
-        geom.position.set_xyz(
+        geom.position.set(
             8 + cell.column * 16,
             0,
             8 + cell.row * 16);
@@ -216,10 +217,10 @@ class WorldRendererProcessor extends Processor
                 batchers : [ batcher ],
                 textures : [ texture ],
                 vertices : [
-                    new Vertex( new Vector(x1, 0, y1), colour, new Vector(u1, v1)),
-                    new Vertex( new Vector(x2, 0, y1), colour, new Vector(u2, v1)),
-                    new Vertex( new Vector(x2, 0, y2), colour, new Vector(u2, v2)),
-                    new Vertex( new Vector(x1, 0, y2), colour, new Vector(u1, v2))
+                    new Vertex( new Vector3(x1, 0, y1), colour, new Vector2(u1, v1)),
+                    new Vertex( new Vector3(x2, 0, y1), colour, new Vector2(u2, v1)),
+                    new Vertex( new Vector3(x2, 0, y2), colour, new Vector2(u2, v2)),
+                    new Vertex( new Vector3(x1, 0, y2), colour, new Vector2(u1, v2))
                 ],
                 indices : [ 0, 1, 2, 2, 3, 0 ]
             }));
@@ -247,71 +248,71 @@ private class CubeConstructor
     private static final colour = new Color();
 
     private static final vertices = [
-        new Vector( 0,  0,  0),
-        new Vector( 0,  0, 16),
-        new Vector( 0, 16, 16),
+        new Vector3( 0,  0,  0),
+        new Vector3( 0,  0, 16),
+        new Vector3( 0, 16, 16),
 
-        new Vector(16, 16,  0),
-        new Vector( 0,  0,  0),
-        new Vector( 0, 16,  0),
+        new Vector3(16, 16,  0),
+        new Vector3( 0,  0,  0),
+        new Vector3( 0, 16,  0),
 
-        new Vector(16, 16,  0),
-        new Vector(16,  0,  0),
-        new Vector( 0,  0,  0),
+        new Vector3(16, 16,  0),
+        new Vector3(16,  0,  0),
+        new Vector3( 0,  0,  0),
 
-        new Vector( 0,  0,  0),
-        new Vector( 0, 16, 16),
-        new Vector( 0, 16,  0),
+        new Vector3( 0,  0,  0),
+        new Vector3( 0, 16, 16),
+        new Vector3( 0, 16,  0),
 
-        new Vector( 0, 16, 16),
-        new Vector( 0,  0, 16),
-        new Vector(16,  0, 16),
+        new Vector3( 0, 16, 16),
+        new Vector3( 0,  0, 16),
+        new Vector3(16,  0, 16),
 
-        new Vector(16, 16, 16),
-        new Vector(16,  0,  0),
-        new Vector(16, 16,  0),
+        new Vector3(16, 16, 16),
+        new Vector3(16,  0,  0),
+        new Vector3(16, 16,  0),
 
-        new Vector(16,  0,  0),
-        new Vector(16, 16, 16),
-        new Vector(16,  0, 16),
+        new Vector3(16,  0,  0),
+        new Vector3(16, 16, 16),
+        new Vector3(16,  0, 16),
 
-        new Vector(16, 16, 16),
-        new Vector( 0, 16, 16),
-        new Vector(16,  0, 16)
+        new Vector3(16, 16, 16),
+        new Vector3( 0, 16, 16),
+        new Vector3(16,  0, 16)
     ];
 
     public static final texCoords = [
-        new Vector(0, 0),
-        new Vector(1, 0),
-        new Vector(1, 1),
+        new Vector2(0, 0),
+        new Vector2(1, 0),
+        new Vector2(1, 1),
 
-        new Vector(0, 1),
-        new Vector(1, 0),
-        new Vector(1, 1),
+        new Vector2(0, 1),
+        new Vector2(1, 0),
+        new Vector2(1, 1),
 
-        new Vector(0, 1),
-        new Vector(0, 0),
-        new Vector(1, 0),
+        new Vector2(0, 1),
+        new Vector2(0, 0),
+        new Vector2(1, 0),
 
-        new Vector(0, 0),
-        new Vector(1, 1),
-        new Vector(0, 1),
+        new Vector2(0, 0),
+        new Vector2(1, 1),
+        new Vector2(0, 1),
 
-        new Vector(0, 1),
-        new Vector(0, 0),
-        new Vector(1, 0),
+        new Vector2(0, 1),
+        new Vector2(0, 0),
+        new Vector2(1, 0),
 
-        new Vector(0, 1),
-        new Vector(1, 0),
-        new Vector(1, 1),
+        new Vector2(0, 1),
+        new Vector2(1, 0),
+        new Vector2(1, 1),
 
-        new Vector(1, 0),
-        new Vector(0, 1),
-        new Vector(0, 0),
+        new Vector2(1, 0),
+        new Vector2(0, 1),
+        new Vector2(0, 0),
 
-        new Vector(1, 1),
-        new Vector(0, 1),
-        new Vector(1, 0)
+        new Vector2(1, 1),
+        new Vector2(0, 1),
+        new Vector2(1, 0)
     ];
 
     public static function create(_batcher : Batcher, _texture : ImageResource, _uv : Rectangle, _px : Float, _py : Float, _tx : Float, _ty : Float) : Geometry
@@ -327,12 +328,12 @@ private class CubeConstructor
                 )
             ]
         });
-        g.position.set_xyz(_px, 0, _py);
+        g.position.set(_px, 0, _py);
 
         return g;
     }
 
-    private static function uv(_vector : Vector, _uv : Rectangle) : Vector
+    private static function uv(_vector : Vector2, _uv : Rectangle) : Vector2
     {
         _vector.x = (_vector.x == 0) ? _uv.x : _uv.x + _uv.w;
         _vector.y = (_vector.y == 0) ? _uv.y : _uv.y + _uv.h;

@@ -10,7 +10,7 @@ import slide.tweens.TweenObject;
 import components.PartyMemberActionComponent;
 import components.PartyMemberSelectionComponent;
 import components.PartyComponent;
-import uk.aidanlee.flurry.api.maths.Vector;
+import uk.aidanlee.flurry.api.maths.Vector3;
 import uk.aidanlee.flurry.api.maths.Rectangle;
 import uk.aidanlee.flurry.api.input.Input;
 import uk.aidanlee.flurry.api.input.Keycodes;
@@ -38,7 +38,7 @@ class PartyBattleMenuProcessor extends Processor
 
     var geomArrow : Geometry;
 
-    var geomArrowTween : TweenObject<Vector>;
+    var geomArrowTween : TweenObject<Vector3>;
 
     public function new(_input : Input, _resources : ResourceSystem, _batcher : Batcher)
     {

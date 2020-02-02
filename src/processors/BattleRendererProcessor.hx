@@ -1,5 +1,6 @@
 package processors;
 
+import uk.aidanlee.flurry.api.gpu.textures.ImageRegion;
 import components.EnemyComponent;
 import clay.Components;
 import uk.aidanlee.flurry.api.resources.Resource.TextResource;
@@ -66,26 +67,20 @@ class BattleRendererProcessor extends Processor
 
         geomHealthBarFrame = new NineSlice({
             batchers : [ batcher ],
-            textures : [ texture ],
+            textures : Textures([ texture ]),
             uv : new Rectangle(16, 0, 48, 48),
             left : 4, right : 4, top : 4, bottom : 4,
             x : 16, y : 16, w : 128, h : 16
         });
         geomHealthBar = new QuadGeometry({
             batchers : [ batcher ],
-            textures : [ texture ],
-            uv : new Rectangle(
-                3 / texture.width,
-                19 / texture.height,
-                13 / texture.width,
-                23 / texture.height
-            ),
+            textures : Textures([ texture ]),
+            region : new ImageRegion(texture, 3, 19, 10, 3),
             x : 19, y : 19, w : 122, h : 10
         });
         geomTitle = new TextGeometry({
             batchers : [ batcher ],
-            textures : [ resources.get('small.png', ImageResource) ],
-            color    : colour,
+            textures : Textures([ resources.get('small.png', ImageResource) ]),
             font     : font,
             text     : enemy.name,
             position : new Vector3(20, 6)
@@ -94,9 +89,9 @@ class BattleRendererProcessor extends Processor
 
     function onBattleEnded(_entity : Entity)
     {
-        geomHealthBar.drop();
-        geomHealthBarFrame.drop();
-        geomTitle.drop();
+        batcher.removeGeometry(geomHealthBarFrame);
+        batcher.removeGeometry(geomHealthBar);
+        batcher.removeGeometry(geomTitle);
     }
 
     override function update(_dt : Float)

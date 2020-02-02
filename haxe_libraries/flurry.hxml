@@ -8,4 +8,4 @@
 -lib safety
 -lib signals
 -lib sys.io.abstractions
--cp ${HAXE_LIBCACHE}/flurry/0.0.1/github/2c7ab66f6675598415267f04f754097f8cf9ed80/src
+-cp F:/flurry/src

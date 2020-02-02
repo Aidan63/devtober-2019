@@ -60,7 +60,7 @@ class Game extends Flurry
 
     override function onConfig(_config : FlurryConfig) : FlurryConfig
     {
-        _config.window.title  = 'Doom';
+        _config.window.title  = 'Devtober-2019';
         _config.window.width  = 320;
         _config.window.height = 240;
 
@@ -132,7 +132,7 @@ class Game extends Flurry
     {
         Slide.step(_dt);
 
-        uiCamera.viewport.set(0, 0, display.width, display.height);
+        uiCamera.viewport = Viewport(0, 0, display.width, display.height);
         uiCamera.update(_dt);
 
         processors.update(_dt);

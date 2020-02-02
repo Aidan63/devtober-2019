@@ -1,0 +1,22 @@
+{
+    "app" : {
+        "name"      : "Devtober 2019",
+        "main"      : "Game",
+        "output"    : "bin",
+        "codepaths" : [ "src" ],
+        "namespace" : "uk.aidanlee.devtober-2019",
+        "backend"   : "Snow"
+    },
+
+    "build" : {
+        "dependencies" : [
+            { "lib" : "flurry" },
+            { "lib" : "format-tiled" },
+            { "lib" : "tweenxcore" },
+            { "lib" : "clay" },
+            { "lib" : "slide" }
+        ]
+    },
+
+    "parcels" : [ "assets/assets.json" ]
+}

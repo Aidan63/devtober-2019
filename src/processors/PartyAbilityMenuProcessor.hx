@@ -1,5 +1,6 @@
 package processors;
 
+import uk.aidanlee.flurry.api.gpu.textures.ImageRegion;
 import components.PartyMemberActionComponent;
 import uk.aidanlee.flurry.api.input.Keycodes;
 import uk.aidanlee.flurry.api.gpu.geometry.shapes.QuadGeometry;
@@ -74,7 +75,7 @@ class PartyAbilityMenuProcessor extends Processor
             
             geomAbilityMenu = new NineSlice({
                 batchers : [ batcher ],
-                textures : [ texture ],
+                textures : Textures([ texture ]),
                 uv : new Rectangle(16, 0, 48, 48),
                 left : 16, right : 16, top : 16, bottom : 16,
                 x : 8, y : 32, w : 144, h : 64
@@ -82,9 +83,9 @@ class PartyAbilityMenuProcessor extends Processor
 
             geomAbilityIndicator = new QuadGeometry({
                 batchers : [ batcher ],
-                textures : [ texture ],
+                textures : Textures([ texture ]),
                 depth    : 1,
-                uv       : new Rectangle(64 / texture.width, 32 / texture.height, 72 / texture.width, 40 / texture.height),
+                region   : new ImageRegion(texture, 64, 32, 8, 8),
                 x : 5, y : 8, w : 8, h : 8
             });
             geomAbilityIndicator.transformation.parent = geomAbilityMenu.transformation;
@@ -92,9 +93,8 @@ class PartyAbilityMenuProcessor extends Processor
             geomTextAbilityNames = [ for (i in 0...party.members[party.selected].abilities.length) {
                     var t = new TextGeometry({
                         batchers : [ batcher ],
-                        textures : [ resources.get('small.png', ImageResource) ],
+                        textures : Textures([ resources.get('small.png', ImageResource) ]),
                         depth    : 1,
-                        color    : colour,
                         font     : font,
                         text     : party.members[party.selected].abilities[i].name,
                         position : new Vector3(8, 11 + (i * 12))
@@ -106,9 +106,8 @@ class PartyAbilityMenuProcessor extends Processor
             geomTextAbilityCosts = [ for (i in 0...party.members[party.selected].abilities.length) {
                     var t = new TextGeometry({
                         batchers : [ batcher ],
-                        textures : [ resources.get('small.png', ImageResource) ],
+                        textures : Textures([ resources.get('small.png', ImageResource) ]),
                         depth    : 1,
-                        color    : colour,
                         font     : font,
                         text     : '${party.members[party.selected].abilities[i].cost} mp',
                         position : new Vector3(96, 11 + (i * 12))
@@ -119,10 +118,11 @@ class PartyAbilityMenuProcessor extends Processor
             ];
         });
         familyMemberAbility.onremoved.add(function(_entity : Entity) {
-            geomAbilityMenu.drop();
-            geomAbilityIndicator.drop();
-            for (g in geomTextAbilityNames) g.drop();
-            for (g in geomTextAbilityCosts) g.drop();
+            batcher.removeGeometry(geomAbilityMenu);
+            batcher.removeGeometry(geomAbilityIndicator);
+            for (g in geomTextAbilityNames) batcher.removeGeometry(g);
+            for (g in geomTextAbilityCosts) batcher.removeGeometry(g);
+
             geomTextAbilityNames.resize(0);
             geomTextAbilityCosts.resize(0);
         });
@@ -130,11 +130,6 @@ class PartyAbilityMenuProcessor extends Processor
         componentsParty           = components.get_table(PartyComponent);
         componentsMemberSelection = components.get_table(PartyMemberSelectionComponent);
         componentsMemberAbility   = components.get_table(PartyMemberAbilityComponent);
-    }
-
-    override function onremoved()
-    {
-        //
     }
 
     override function update(_dt : Float)

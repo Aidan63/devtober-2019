@@ -18,17 +18,10 @@
                 "ogl3" : { "vertex" : "assets/shaders/ogl3/textured.vert.glsl", "fragment" : "assets/shaders/ogl3/textured.frag.glsl", "compiled" : false },
                 "ogl4" : { "vertex" : "assets/shaders/ogl4/textured.vert.glsl", "fragment" : "assets/shaders/ogl4/textured.frag.glsl", "compiled" : true },
                 "hlsl" : { "vertex" : "assets/shaders/hlsl/textured.vert.hlsl", "fragment" : "assets/shaders/hlsl/textured.frag.hlsl", "compiled" : true }
-            },
-            {
-                "id" : "solid",
-                "path" : "assets/shaders/solid.json",
-                "ogl3" : { "vertex" : "assets/shaders/ogl3/solid.vert.glsl", "fragment" : "assets/shaders/ogl3/solid.frag.glsl", "compiled" : false },
-                "ogl4" : { "vertex" : "assets/shaders/ogl4/solid.vert.glsl", "fragment" : "assets/shaders/ogl4/solid.frag.glsl", "compiled" : true },
-                "hlsl" : { "vertex" : "assets/shaders/hlsl/solid.vert.hlsl", "fragment" : "assets/shaders/hlsl/solid.frag.hlsl", "compiled" : true }
             }
         ]
     },
     "parcels" : [
-        { "name" : "preload", "assets" : [ "small.fnt", "small.png", "map", "colored.tsx", "tiles", "ui", "textured", "solid" ], "depends" : [] }
+        { "name" : "preload", "assets" : [ "small.fnt", "small.png", "map", "colored.tsx", "tiles", "ui", "textured" ], "depends" : [] }
     ]
 }

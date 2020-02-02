@@ -1,5 +1,6 @@
 package processors;
 
+import uk.aidanlee.flurry.api.gpu.textures.ImageRegion;
 import clay.Entity;
 import clay.Family;
 import clay.Processor;
@@ -58,12 +59,8 @@ class PartyBattleMenuProcessor extends Processor
 
             geomArrow = new QuadGeometry({
                 batchers: [ batcher ],
-                textures: [ texture ],
-                uv: new Rectangle(
-                     0 / texture.width,
-                    32 / texture.height,
-                    16 / texture.width,
-                    48 / texture.height),
+                textures: Textures([ texture ]),
+                region: new ImageRegion(texture, 0, 32, 16, 16),
                 x : 24 + (party.selected * 48), y : 78, w : 16, h : 16
             });
             geomArrowTween = Slide.tween(geomArrow.position)
@@ -74,8 +71,8 @@ class PartyBattleMenuProcessor extends Processor
                 .start();
         });
         familyMemberSelection.onremoved.add(function(_entity : Entity) {
-            geomArrow.drop();
             geomArrowTween.stop();
+            batcher.removeGeometry(geomArrow);
         });
 
         componentsParty           = components.get_table(PartyComponent);
@@ -99,7 +96,7 @@ class PartyBattleMenuProcessor extends Processor
                 components.set(entity, new PartyMemberActionComponent());
             }
 
-            geomArrow.color.a = 1;
+            // geomArrow.color.a = 1;
             geomArrow.position.x = 0.5.lerp(geomArrow.position.x, 24 + (party.selected * 48));
         }
     }

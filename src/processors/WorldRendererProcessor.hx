@@ -1,5 +1,7 @@
 package processors;
 
+import uk.aidanlee.flurry.api.gpu.geometry.IndexBlob.IndexBlobBuilder;
+import uk.aidanlee.flurry.api.gpu.geometry.VertexBlob.VertexBlobBuilder;
 import components.MapFloorComponent;
 import components.DirectionComponent;
 import components.PositionComponent;
@@ -13,7 +15,6 @@ import uk.aidanlee.flurry.api.gpu.Renderer;
 import uk.aidanlee.flurry.api.gpu.camera.Camera3D;
 import uk.aidanlee.flurry.api.gpu.batcher.Batcher;
 import uk.aidanlee.flurry.api.gpu.geometry.Geometry;
-import uk.aidanlee.flurry.api.gpu.geometry.Vertex;
 import uk.aidanlee.flurry.api.gpu.geometry.Color;
 import uk.aidanlee.flurry.api.maths.Maths;
 import uk.aidanlee.flurry.api.maths.Vector3;
@@ -140,19 +141,53 @@ class WorldRendererProcessor extends Processor
         final cell = componentCells.get(_entity);
         final uvs  = componentUVs.get(_entity);
         final tex  = resources.get('tiles', ImageResource);
+        final col  = new Color();
 
-        wallGeometry.push(CubeConstructor.create(
-            batcher,
-            tex,
-            new Rectangle(
-                uvs.u1 / tex.width,
-                uvs.v1 / tex.height,
-                uvs.u2 / tex.width,
-                uvs.v2 / tex.height),
-            cell.column * 16,
-            cell.row * 16,
-            16,
-            16));
+        final u1 = uvs.u1 / tex.width;
+        final v1 = uvs.v1 / tex.height;
+        final u2 = (uvs.u1 + uvs.u2) / tex.width;
+        final v2 = (uvs.v1 + uvs.v2) / tex.height;
+
+        final g = new Geometry({
+            batchers : [ batcher ],
+            textures : Textures([ tex ]),
+            data     : UnIndexed(
+                new VertexBlobBuilder()
+                    .addVertex(new Vector3( 0,  0,  0), col, new Vector2(u1, v1))
+                    .addVertex(new Vector3( 0,  0, 16), col, new Vector2(u2, v1))
+                    .addVertex(new Vector3( 0, 16, 16), col, new Vector2(u2, v2))
+                    
+                    .addVertex(new Vector3(16, 16,  0), col, new Vector2(u1, v2))
+                    .addVertex(new Vector3( 0,  0,  0), col, new Vector2(u2, v1))
+                    .addVertex(new Vector3( 0, 16,  0), col, new Vector2(u2, v2))
+                    
+                    .addVertex(new Vector3(16, 16,  0), col, new Vector2(u1, v2))
+                    .addVertex(new Vector3(16,  0,  0), col, new Vector2(u1, v1))
+                    .addVertex(new Vector3( 0,  0,  0), col, new Vector2(u2, v1))
+                    
+                    .addVertex(new Vector3( 0,  0,  0), col, new Vector2(u1, v1))
+                    .addVertex(new Vector3( 0, 16, 16), col, new Vector2(u2, v2))
+                    .addVertex(new Vector3( 0, 16,  0), col, new Vector2(u1, v2))
+                    
+                    .addVertex(new Vector3( 0, 16, 16), col, new Vector2(u1, v2))
+                    .addVertex(new Vector3( 0,  0, 16), col, new Vector2(u1, v1))
+                    .addVertex(new Vector3(16,  0, 16), col, new Vector2(u2, v1))
+                    
+                    .addVertex(new Vector3(16, 16, 16), col, new Vector2(u1, v2))
+                    .addVertex(new Vector3(16,  0,  0), col, new Vector2(u2, v1))
+                    .addVertex(new Vector3(16, 16,  0), col, new Vector2(u2, v2))
+                    
+                    .addVertex(new Vector3(16,  0,  0), col, new Vector2(u2, v1))
+                    .addVertex(new Vector3(16, 16, 16), col, new Vector2(u1, v2))
+                    .addVertex(new Vector3(16,  0, 16), col, new Vector2(u1, v1))
+                    
+                    .addVertex(new Vector3(16, 16, 16), col, new Vector2(u2, v2))
+                    .addVertex(new Vector3( 0, 16, 16), col, new Vector2(u1, v2))
+                    .addVertex(new Vector3(16,  0, 16), col, new Vector2(u2, v1))
+                    
+                    .vertexBlob())
+        });
+        g.position.set(cell.column * 16, 0, cell.row * 16);
     }
     
     function createBillboard(_entity : Entity)
@@ -169,15 +204,19 @@ class WorldRendererProcessor extends Processor
 
         final geom = new Geometry({
             batchers : [ batcher ],
-            textures : [ tex ],
-            vertices : [
-                new Vertex( new Vector3(-8,  0,  0), colour, new Vector2(u1, v1) ),
-                new Vertex( new Vector3( 8,  0,  0), colour, new Vector2(u2, v1) ),
-                new Vertex( new Vector3( 8, 16,  0), colour, new Vector2(u2, v2) ),
-                new Vertex( new Vector3(-8, 16,  0), colour, new Vector2(u1, v2) )
-            ],
-            indices : [ 0, 1, 2, 2, 3, 0 ]
+            textures : Textures([ tex ]),
+            data : Indexed(
+                new VertexBlobBuilder()
+                    .addVertex(new Vector3(-8,  0,  0), colour, new Vector2(u1, v1))
+                    .addVertex(new Vector3( 8,  0,  0), colour, new Vector2(u2, v1))
+                    .addVertex(new Vector3( 8, 16,  0), colour, new Vector2(u2, v2))
+                    .addVertex(new Vector3(-8, 16,  0), colour, new Vector2(u1, v2))
+                    .vertexBlob(),
+                new IndexBlobBuilder(6)
+                    .addArray([ 0, 1, 2, 2, 3, 0 ])
+                    .indices)
         });
+
         geom.position.set(
             8 + cell.column * 16,
             0,
@@ -188,7 +227,7 @@ class WorldRendererProcessor extends Processor
 
     function removeBillboard(_entity : Entity)
     {
-        billboardGeometry[_entity.id].drop();
+        batcher.removeGeometry(billboardGeometry[_entity.id]);
         billboardGeometry[_entity.id] = null;
     }
 
@@ -215,14 +254,17 @@ class WorldRendererProcessor extends Processor
 
             floorGeometry.push(new Geometry({
                 batchers : [ batcher ],
-                textures : [ texture ],
-                vertices : [
-                    new Vertex( new Vector3(x1, 0, y1), colour, new Vector2(u1, v1)),
-                    new Vertex( new Vector3(x2, 0, y1), colour, new Vector2(u2, v1)),
-                    new Vertex( new Vector3(x2, 0, y2), colour, new Vector2(u2, v2)),
-                    new Vertex( new Vector3(x1, 0, y2), colour, new Vector2(u1, v2))
-                ],
-                indices : [ 0, 1, 2, 2, 3, 0 ]
+                textures : Textures([ texture ]),
+                data : Indexed(
+                    new VertexBlobBuilder()
+                        .addVertex(new Vector3(x1, 0, y1), colour, new Vector2(u1, v1))
+                        .addVertex(new Vector3(x2, 0, y1), colour, new Vector2(u2, v1))
+                        .addVertex(new Vector3(x2, 0, y2), colour, new Vector2(u2, v2))
+                        .addVertex(new Vector3(x1, 0, y2), colour, new Vector2(u1, v2))
+                        .vertexBlob(),
+                    new IndexBlobBuilder(6)
+                        .addArray([ 0, 1, 2, 2, 3, 0 ])
+                        .indices)
             }));
         }
     }
@@ -240,104 +282,5 @@ class WorldRendererProcessor extends Processor
         }
 
         return _angle;
-    }
-}
-
-private class CubeConstructor
-{
-    private static final colour = new Color();
-
-    private static final vertices = [
-        new Vector3( 0,  0,  0),
-        new Vector3( 0,  0, 16),
-        new Vector3( 0, 16, 16),
-
-        new Vector3(16, 16,  0),
-        new Vector3( 0,  0,  0),
-        new Vector3( 0, 16,  0),
-
-        new Vector3(16, 16,  0),
-        new Vector3(16,  0,  0),
-        new Vector3( 0,  0,  0),
-
-        new Vector3( 0,  0,  0),
-        new Vector3( 0, 16, 16),
-        new Vector3( 0, 16,  0),
-
-        new Vector3( 0, 16, 16),
-        new Vector3( 0,  0, 16),
-        new Vector3(16,  0, 16),
-
-        new Vector3(16, 16, 16),
-        new Vector3(16,  0,  0),
-        new Vector3(16, 16,  0),
-
-        new Vector3(16,  0,  0),
-        new Vector3(16, 16, 16),
-        new Vector3(16,  0, 16),
-
-        new Vector3(16, 16, 16),
-        new Vector3( 0, 16, 16),
-        new Vector3(16,  0, 16)
-    ];
-
-    public static final texCoords = [
-        new Vector2(0, 0),
-        new Vector2(1, 0),
-        new Vector2(1, 1),
-
-        new Vector2(0, 1),
-        new Vector2(1, 0),
-        new Vector2(1, 1),
-
-        new Vector2(0, 1),
-        new Vector2(0, 0),
-        new Vector2(1, 0),
-
-        new Vector2(0, 0),
-        new Vector2(1, 1),
-        new Vector2(0, 1),
-
-        new Vector2(0, 1),
-        new Vector2(0, 0),
-        new Vector2(1, 0),
-
-        new Vector2(0, 1),
-        new Vector2(1, 0),
-        new Vector2(1, 1),
-
-        new Vector2(1, 0),
-        new Vector2(0, 1),
-        new Vector2(0, 0),
-
-        new Vector2(1, 1),
-        new Vector2(0, 1),
-        new Vector2(1, 0)
-    ];
-
-    public static function create(_batcher : Batcher, _texture : ImageResource, _uv : Rectangle, _px : Float, _py : Float, _tx : Float, _ty : Float) : Geometry
-    {
-        final g = new Geometry({
-            batchers : [ _batcher ],
-            textures : [ _texture ],
-            vertices : [
-                for (i in 0...vertices.length) new Vertex(
-                    vertices[i],
-                    colour,
-                    uv(texCoords[i].clone(), _uv)
-                )
-            ]
-        });
-        g.position.set(_px, 0, _py);
-
-        return g;
-    }
-
-    private static function uv(_vector : Vector2, _uv : Rectangle) : Vector2
-    {
-        _vector.x = (_vector.x == 0) ? _uv.x : _uv.x + _uv.w;
-        _vector.y = (_vector.y == 0) ? _uv.y : _uv.y + _uv.h;
-
-        return _vector;
     }
 }

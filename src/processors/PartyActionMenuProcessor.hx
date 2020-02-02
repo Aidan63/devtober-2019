@@ -1,5 +1,6 @@
 package processors;
 
+import uk.aidanlee.flurry.api.gpu.textures.ImageRegion;
 import components.EnemyComponent;
 import uk.aidanlee.flurry.api.gpu.geometry.shapes.QuadGeometry;
 import uk.aidanlee.flurry.api.gpu.geometry.Color;
@@ -77,7 +78,7 @@ class PartyActionMenuProcessor extends Processor
 
             geomActionMenu = new NineSlice({
                 batchers : [ batcher ],
-                textures : [ texture ],
+                textures : Textures([ texture ]),
                 uv : new Rectangle(16, 0, 48, 48),
                 left : 16, right : 16, top : 16, bottom : 16,
                 x : 8 + (party.selected * 48), y : 48, w : 48, h : 48
@@ -85,9 +86,9 @@ class PartyActionMenuProcessor extends Processor
 
             geomActionIndicator = new QuadGeometry({
                 batchers : [ batcher ],
-                textures : [ texture ],
+                textures : Textures([ texture ]),
                 depth    : 1,
-                uv       : new Rectangle(64 / texture.width, 32 / texture.height, 72 / texture.width, 40 / texture.height),
+                region: new ImageRegion(texture, 64, 32, 8, 8),
                 x : 5, y : 8, w : 8, h : 8
             });
             geomActionIndicator.transformation.parent = geomActionMenu.transformation;
@@ -95,9 +96,8 @@ class PartyActionMenuProcessor extends Processor
             geomActionText = [ for (i in 0...party.members[party.selected].actions.length) {
                 var t = new TextGeometry({
                     batchers : [ batcher ],
-                    textures : [ resources.get('small.png', ImageResource) ],
+                    textures : Textures([ resources.get('small.png', ImageResource) ]),
                     depth    : 1,
-                    color    : colour,
                     font     : font,
                     text     : party.members[party.selected].actions[i],
                     position : new Vector3(8, 9 + (i * 12))
@@ -107,13 +107,9 @@ class PartyActionMenuProcessor extends Processor
             } ];
         });
         familyMemberAction.onremoved.add(function(_entity : Entity) {
-            geomActionMenu.drop();
-            geomActionIndicator.drop();
-
-            for (g in geomActionText)
-            {
-                g.drop();
-            }
+            batcher.removeGeometry(geomActionMenu);
+            batcher.removeGeometry(geomActionIndicator);
+            for (g in geomActionText) batcher.removeGeometry(g);
 
             geomActionText.resize(0);
         });

@@ -1,5 +1,6 @@
 package processors;
 
+import uk.aidanlee.flurry.api.maths.Vector4;
 import uk.aidanlee.flurry.api.gpu.geometry.IndexBlob.IndexBlobBuilder;
 import uk.aidanlee.flurry.api.gpu.geometry.VertexBlob.VertexBlobBuilder;
 import components.MapFloorComponent;
@@ -15,7 +16,6 @@ import uk.aidanlee.flurry.api.gpu.Renderer;
 import uk.aidanlee.flurry.api.gpu.camera.Camera3D;
 import uk.aidanlee.flurry.api.gpu.batcher.Batcher;
 import uk.aidanlee.flurry.api.gpu.geometry.Geometry;
-import uk.aidanlee.flurry.api.gpu.geometry.Color;
 import uk.aidanlee.flurry.api.maths.Maths;
 import uk.aidanlee.flurry.api.maths.Vector3;
 import uk.aidanlee.flurry.api.maths.Vector2;
@@ -68,7 +68,7 @@ class WorldRendererProcessor extends Processor
 
         renderer  = _renderer;
         resources = _resources;
-        camera    = new Camera3D(45, 1.3333, 0.1, 1000);
+        camera    = _renderer.createCamera3D(45, 1.3333, 0.1, 1000);
         batcher   = _renderer.createBatcher({
             camera : camera,
             shader : _resources.get('textured', ShaderResource),
@@ -141,7 +141,6 @@ class WorldRendererProcessor extends Processor
         final cell = componentCells.get(_entity);
         final uvs  = componentUVs.get(_entity);
         final tex  = resources.get('tiles', ImageResource);
-        final col  = new Color();
 
         final u1 = uvs.u1 / tex.width;
         final v1 = uvs.v1 / tex.height;
@@ -153,37 +152,37 @@ class WorldRendererProcessor extends Processor
             textures : Textures([ tex ]),
             data     : UnIndexed(
                 new VertexBlobBuilder()
-                    .addVertex(new Vector3( 0,  0,  0), col, new Vector2(u1, v1))
-                    .addVertex(new Vector3( 0,  0, 16), col, new Vector2(u2, v1))
-                    .addVertex(new Vector3( 0, 16, 16), col, new Vector2(u2, v2))
+                    .addFloat3( 0,  0,  0).addFloat4(1, 1, 1, 1).addFloat2(u1, v1)
+                    .addFloat3( 0,  0, 16).addFloat4(1, 1, 1, 1).addFloat2(u2, v1)
+                    .addFloat3( 0, 16, 16).addFloat4(1, 1, 1, 1).addFloat2(u2, v2)
                     
-                    .addVertex(new Vector3(16, 16,  0), col, new Vector2(u1, v2))
-                    .addVertex(new Vector3( 0,  0,  0), col, new Vector2(u2, v1))
-                    .addVertex(new Vector3( 0, 16,  0), col, new Vector2(u2, v2))
+                    .addFloat3(16, 16,  0).addFloat4(1, 1, 1, 1).addFloat2(u1, v2)
+                    .addFloat3( 0,  0,  0).addFloat4(1, 1, 1, 1).addFloat2(u2, v1)
+                    .addFloat3( 0, 16,  0).addFloat4(1, 1, 1, 1).addFloat2(u2, v2)
                     
-                    .addVertex(new Vector3(16, 16,  0), col, new Vector2(u1, v2))
-                    .addVertex(new Vector3(16,  0,  0), col, new Vector2(u1, v1))
-                    .addVertex(new Vector3( 0,  0,  0), col, new Vector2(u2, v1))
+                    .addFloat3(16, 16,  0).addFloat4(1, 1, 1, 1).addFloat2(u1, v2)
+                    .addFloat3(16,  0,  0).addFloat4(1, 1, 1, 1).addFloat2(u1, v1)
+                    .addFloat3( 0,  0,  0).addFloat4(1, 1, 1, 1).addFloat2(u2, v1)
                     
-                    .addVertex(new Vector3( 0,  0,  0), col, new Vector2(u1, v1))
-                    .addVertex(new Vector3( 0, 16, 16), col, new Vector2(u2, v2))
-                    .addVertex(new Vector3( 0, 16,  0), col, new Vector2(u1, v2))
+                    .addFloat3( 0,  0,  0).addFloat4(1, 1, 1, 1).addFloat2(u1, v1)
+                    .addFloat3( 0, 16, 16).addFloat4(1, 1, 1, 1).addFloat2(u2, v2)
+                    .addFloat3( 0, 16,  0).addFloat4(1, 1, 1, 1).addFloat2(u1, v2)
                     
-                    .addVertex(new Vector3( 0, 16, 16), col, new Vector2(u1, v2))
-                    .addVertex(new Vector3( 0,  0, 16), col, new Vector2(u1, v1))
-                    .addVertex(new Vector3(16,  0, 16), col, new Vector2(u2, v1))
+                    .addFloat3( 0, 16, 16).addFloat4(1, 1, 1, 1).addFloat2(u1, v2)
+                    .addFloat3( 0,  0, 16).addFloat4(1, 1, 1, 1).addFloat2(u1, v1)
+                    .addFloat3(16,  0, 16).addFloat4(1, 1, 1, 1).addFloat2(u2, v1)
                     
-                    .addVertex(new Vector3(16, 16, 16), col, new Vector2(u1, v2))
-                    .addVertex(new Vector3(16,  0,  0), col, new Vector2(u2, v1))
-                    .addVertex(new Vector3(16, 16,  0), col, new Vector2(u2, v2))
+                    .addFloat3(16, 16, 16).addFloat4(1, 1, 1, 1).addFloat2(u1, v2)
+                    .addFloat3(16,  0,  0).addFloat4(1, 1, 1, 1).addFloat2(u2, v1)
+                    .addFloat3(16, 16,  0).addFloat4(1, 1, 1, 1).addFloat2(u2, v2)
                     
-                    .addVertex(new Vector3(16,  0,  0), col, new Vector2(u2, v1))
-                    .addVertex(new Vector3(16, 16, 16), col, new Vector2(u1, v2))
-                    .addVertex(new Vector3(16,  0, 16), col, new Vector2(u1, v1))
+                    .addFloat3(16,  0,  0).addFloat4(1, 1, 1, 1).addFloat2(u2, v1)
+                    .addFloat3(16, 16, 16).addFloat4(1, 1, 1, 1).addFloat2(u1, v2)
+                    .addFloat3(16,  0, 16).addFloat4(1, 1, 1, 1).addFloat2(u1, v1)
                     
-                    .addVertex(new Vector3(16, 16, 16), col, new Vector2(u2, v2))
-                    .addVertex(new Vector3( 0, 16, 16), col, new Vector2(u1, v2))
-                    .addVertex(new Vector3(16,  0, 16), col, new Vector2(u2, v1))
+                    .addFloat3(16, 16, 16).addFloat4(1, 1, 1, 1).addFloat2(u2, v2)
+                    .addFloat3( 0, 16, 16).addFloat4(1, 1, 1, 1).addFloat2(u1, v2)
+                    .addFloat3(16,  0, 16).addFloat4(1, 1, 1, 1).addFloat2(u2, v1)
                     
                     .vertexBlob())
         });
@@ -192,10 +191,9 @@ class WorldRendererProcessor extends Processor
     
     function createBillboard(_entity : Entity)
     {
-        final cell   = componentCells.get(_entity);
-        final uvs    = componentUVs.get(_entity);
-        final tex    = resources.get('tiles', ImageResource);
-        final colour = new Color();
+        final cell = componentCells.get(_entity);
+        final uvs  = componentUVs.get(_entity);
+        final tex  = resources.get('tiles', ImageResource);
 
         final u1 = uvs.u1 / tex.width;
         final v1 = uvs.v1 / tex.height;
@@ -207,14 +205,14 @@ class WorldRendererProcessor extends Processor
             textures : Textures([ tex ]),
             data : Indexed(
                 new VertexBlobBuilder()
-                    .addVertex(new Vector3(-8,  0,  0), colour, new Vector2(u1, v1))
-                    .addVertex(new Vector3( 8,  0,  0), colour, new Vector2(u2, v1))
-                    .addVertex(new Vector3( 8, 16,  0), colour, new Vector2(u2, v2))
-                    .addVertex(new Vector3(-8, 16,  0), colour, new Vector2(u1, v2))
+                    .addFloat3(-8,  0,  0).addFloat4(1, 1, 1, 1).addFloat2(u1, v1)
+                    .addFloat3( 8,  0,  0).addFloat4(1, 1, 1, 1).addFloat2(u2, v1)
+                    .addFloat3( 8, 16,  0).addFloat4(1, 1, 1, 1).addFloat2(u2, v2)
+                    .addFloat3(-8, 16,  0).addFloat4(1, 1, 1, 1).addFloat2(u1, v2)
                     .vertexBlob(),
-                new IndexBlobBuilder(6)
-                    .addArray([ 0, 1, 2, 2, 3, 0 ])
-                    .indices)
+                new IndexBlobBuilder()
+                    .addInt(0).addInt(1).addInt(2).addInt(2).addInt(3).addInt(0)
+                    .indexBlob())
         });
 
         geom.position.set(
@@ -235,7 +233,6 @@ class WorldRendererProcessor extends Processor
     {
         final texture = resources.get('tiles', ImageResource);
         final map     = componentsMapFloor.get(_entity);
-        final colour  = new Color();
 
         for (i in 0...map.positions.length)
         {
@@ -257,14 +254,14 @@ class WorldRendererProcessor extends Processor
                 textures : Textures([ texture ]),
                 data : Indexed(
                     new VertexBlobBuilder()
-                        .addVertex(new Vector3(x1, 0, y1), colour, new Vector2(u1, v1))
-                        .addVertex(new Vector3(x2, 0, y1), colour, new Vector2(u2, v1))
-                        .addVertex(new Vector3(x2, 0, y2), colour, new Vector2(u2, v2))
-                        .addVertex(new Vector3(x1, 0, y2), colour, new Vector2(u1, v2))
+                        .addFloat3(x1, 0, y1).addFloat4(1, 1, 1, 1).addFloat2(u1, v1)
+                        .addFloat3(x2, 0, y1).addFloat4(1, 1, 1, 1).addFloat2(u2, v1)
+                        .addFloat3(x2, 0, y2).addFloat4(1, 1, 1, 1).addFloat2(u2, v2)
+                        .addFloat3(x1, 0, y2).addFloat4(1, 1, 1, 1).addFloat2(u1, v2)
                         .vertexBlob(),
-                    new IndexBlobBuilder(6)
-                        .addArray([ 0, 1, 2, 2, 3, 0 ])
-                        .indices)
+                    new IndexBlobBuilder()
+                        .addInt(0).addInt(1).addInt(2).addInt(2).addInt(3).addInt(0)
+                        .indexBlob())
             }));
         }
     }

@@ -1,5 +1,6 @@
 -D flurry=0.0.1
-# @install: lix --silent download "gh://github.com/flurry-engine/flurry#2c7ab66f6675598415267f04f754097f8cf9ed80" into flurry/0.0.1/github/2c7ab66f6675598415267f04f754097f8cf9ed80
+# @install: lix --silent download "gh://github.com/flurry-engine/flurry#c86fbc326c567a46fa44dc2a382bfcbc0b926670" into flurry/0.0.1/github/c86fbc326c567a46fa44dc2a382bfcbc0b926670
+-lib RxHaxe
 -lib format
 -lib haxe-concurrent
 -lib json2object
@@ -8,4 +9,4 @@
 -lib safety
 -lib signals
 -lib sys.io.abstractions
--cp F:/flurry/src
+-cp ${HAXE_LIBCACHE}/flurry/0.0.1/github/c86fbc326c567a46fa44dc2a382bfcbc0b926670/src

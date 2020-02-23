@@ -58,10 +58,10 @@ class PartyBattleMenuProcessor extends Processor
             final texture = resources.get('ui', ImageResource);
 
             geomArrow = new QuadGeometry({
-                batchers: [ batcher ],
-                textures: Textures([ texture ]),
-                region: new ImageRegion(texture, 0, 32, 16, 16),
-                x : 24 + (party.selected * 48), y : 78, w : 16, h : 16
+                batchers : [ batcher ],
+                texture  : texture,
+                region   : new ImageRegion(texture, 0, 32, 16, 16),
+                x : 24 + (party.selected * 48), y : 78, width : 16, height : 16
             });
             geomArrowTween = Slide.tween(geomArrow.position)
                 .to({ y : 82 }, 0.25).ease(Quad.easeInOut)

@@ -3,7 +3,6 @@ package processors;
 import uk.aidanlee.flurry.api.gpu.textures.ImageRegion;
 import components.EnemyComponent;
 import uk.aidanlee.flurry.api.gpu.geometry.shapes.QuadGeometry;
-import uk.aidanlee.flurry.api.gpu.geometry.Color;
 import uk.aidanlee.flurry.api.resources.Resource.TextResource;
 import uk.aidanlee.flurry.api.importers.bmfont.BitmapFontParser;
 import uk.aidanlee.flurry.api.importers.bmfont.BitmapFontData;
@@ -38,8 +37,6 @@ class PartyActionMenuProcessor extends Processor
 
     final font : BitmapFontData;
 
-    final colour : Color;
-
     var familyMemberAction : Family;
 
     var familyEnemies : Family;
@@ -66,7 +63,6 @@ class PartyActionMenuProcessor extends Processor
         resources = _resources;
         batcher   = _batcher;
         font      = BitmapFontParser.parse(resources.get('small.fnt', TextResource).content);
-        colour    = new Color(207 / 255, 198 / 255, 184 / 255);
     }
 
     override function onadded()
@@ -78,30 +74,30 @@ class PartyActionMenuProcessor extends Processor
 
             geomActionMenu = new NineSlice({
                 batchers : [ batcher ],
-                textures : Textures([ texture ]),
+                texture  : texture,
                 uv : new Rectangle(16, 0, 48, 48),
                 left : 16, right : 16, top : 16, bottom : 16,
-                x : 8 + (party.selected * 48), y : 48, w : 48, h : 48
+                x : 8 + (party.selected * 48), y : 48, width : 48, height : 48
             });
 
             geomActionIndicator = new QuadGeometry({
                 batchers : [ batcher ],
-                textures : Textures([ texture ]),
+                texture  : texture,
                 depth    : 1,
-                region: new ImageRegion(texture, 64, 32, 8, 8),
-                x : 5, y : 8, w : 8, h : 8
+                region   : new ImageRegion(texture, 64, 32, 8, 8),
+                x : 5, y : 8, width : 8, height : 8
             });
             geomActionIndicator.transformation.parent = geomActionMenu.transformation;
 
             geomActionText = [ for (i in 0...party.members[party.selected].actions.length) {
                 var t = new TextGeometry({
                     batchers : [ batcher ],
-                    textures : Textures([ resources.get('small.png', ImageResource) ]),
+                    texture  : resources.get('small.png', ImageResource),
                     depth    : 1,
                     font     : font,
-                    text     : party.members[party.selected].actions[i],
-                    position : new Vector3(8, 9 + (i * 12))
+                    text     : party.members[party.selected].actions[i]
                 });
+                t.position.set_xy(8, 9 + (i * 12));
                 t.transformation.parent = geomActionMenu.transformation;
                 t;
             } ];

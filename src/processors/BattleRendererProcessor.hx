@@ -6,7 +6,6 @@ import clay.Components;
 import uk.aidanlee.flurry.api.resources.Resource.TextResource;
 import uk.aidanlee.flurry.api.importers.bmfont.BitmapFontParser;
 import uk.aidanlee.flurry.api.importers.bmfont.BitmapFontData;
-import uk.aidanlee.flurry.api.gpu.geometry.Color;
 import uk.aidanlee.flurry.api.gpu.geometry.shapes.TextGeometry;
 import uk.aidanlee.flurry.api.gpu.geometry.shapes.QuadGeometry;
 import geometry.NineSlice;
@@ -29,8 +28,6 @@ class BattleRendererProcessor extends Processor
 
     final font : BitmapFontData;
 
-    final colour : Color;
-
     var familyOpponents : Family;
 
     var componentsEnemy : Components<EnemyComponent>;
@@ -48,7 +45,6 @@ class BattleRendererProcessor extends Processor
         resources = _resources;
         batcher   = _batcher;
         font      = BitmapFontParser.parse(_resources.get('small.fnt', TextResource).content);
-        colour    = new Color(207 / 255, 198 / 255, 184 / 255);
         texture   = resources.get('ui', ImageResource);
     }
 
@@ -67,24 +63,24 @@ class BattleRendererProcessor extends Processor
 
         geomHealthBarFrame = new NineSlice({
             batchers : [ batcher ],
-            textures : Textures([ texture ]),
+            texture  : texture,
             uv : new Rectangle(16, 0, 48, 48),
             left : 4, right : 4, top : 4, bottom : 4,
-            x : 16, y : 16, w : 128, h : 16
+            x : 16, y : 16, width : 128, height : 16
         });
         geomHealthBar = new QuadGeometry({
             batchers : [ batcher ],
-            textures : Textures([ texture ]),
+            texture  : texture,
             region : new ImageRegion(texture, 3, 19, 10, 3),
-            x : 19, y : 19, w : 122, h : 10
+            x : 19, y : 19, width : 122, height : 10
         });
         geomTitle = new TextGeometry({
             batchers : [ batcher ],
-            textures : Textures([ resources.get('small.png', ImageResource) ]),
+            texture  : resources.get('small.png', ImageResource),
             font     : font,
-            text     : enemy.name,
-            position : new Vector3(20, 6)
+            text     : enemy.name
         });
+        geomTitle.position.set_xy(20, 6);
     }
 
     function onBattleEnded(_entity : Entity)
@@ -100,7 +96,7 @@ class BattleRendererProcessor extends Processor
         {
             final enemy = componentsEnemy.get(entity);
 
-            geomHealthBar.set_xywh(19, 19, 122 * (enemy.health / enemy.maxHealth), 10);
+            geomHealthBar.set(19, 19, 122 * (enemy.health / enemy.maxHealth), 10);
         }
     }
 }

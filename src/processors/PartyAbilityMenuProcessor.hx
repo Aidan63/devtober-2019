@@ -14,7 +14,6 @@ import components.PartyComponent;
 import components.PartyMemberSelectionComponent;
 import components.PartyMemberAbilityComponent;
 import clay.Components;
-import uk.aidanlee.flurry.api.gpu.geometry.Color;
 import uk.aidanlee.flurry.api.resources.Resource.TextResource;
 import uk.aidanlee.flurry.api.importers.bmfont.BitmapFontParser;
 import uk.aidanlee.flurry.api.importers.bmfont.BitmapFontData;
@@ -36,8 +35,6 @@ class PartyAbilityMenuProcessor extends Processor
     final batcher : Batcher;
 
     final font : BitmapFontData;
-
-    final colour : Color;
 
     var familyMemberAbility : Family;
 
@@ -63,7 +60,6 @@ class PartyAbilityMenuProcessor extends Processor
         resources = _resources;
         batcher   = _batcher;
         font      = BitmapFontParser.parse(resources.get('small.fnt', TextResource).content);
-        colour    = new Color(207 / 255, 198 / 255, 184 / 255);
     }
 
     override function onadded()
@@ -75,30 +71,30 @@ class PartyAbilityMenuProcessor extends Processor
             
             geomAbilityMenu = new NineSlice({
                 batchers : [ batcher ],
-                textures : Textures([ texture ]),
+                texture  : texture,
                 uv : new Rectangle(16, 0, 48, 48),
                 left : 16, right : 16, top : 16, bottom : 16,
-                x : 8, y : 32, w : 144, h : 64
+                x : 8, y : 32, width : 144, height : 64
             });
 
             geomAbilityIndicator = new QuadGeometry({
                 batchers : [ batcher ],
-                textures : Textures([ texture ]),
+                texture  : texture,
                 depth    : 1,
                 region   : new ImageRegion(texture, 64, 32, 8, 8),
-                x : 5, y : 8, w : 8, h : 8
+                x : 5, y : 8, width : 8, height : 8
             });
             geomAbilityIndicator.transformation.parent = geomAbilityMenu.transformation;
 
             geomTextAbilityNames = [ for (i in 0...party.members[party.selected].abilities.length) {
                     var t = new TextGeometry({
                         batchers : [ batcher ],
-                        textures : Textures([ resources.get('small.png', ImageResource) ]),
+                        texture  : resources.get('small.png', ImageResource),
                         depth    : 1,
                         font     : font,
-                        text     : party.members[party.selected].abilities[i].name,
-                        position : new Vector3(8, 11 + (i * 12))
+                        text     : party.members[party.selected].abilities[i].name
                     });
+                    t.position.set_xy(8, 11 + (i * 12));
                     t.transformation.parent = geomAbilityMenu.transformation;
                     t;
                 }
@@ -106,12 +102,12 @@ class PartyAbilityMenuProcessor extends Processor
             geomTextAbilityCosts = [ for (i in 0...party.members[party.selected].abilities.length) {
                     var t = new TextGeometry({
                         batchers : [ batcher ],
-                        textures : Textures([ resources.get('small.png', ImageResource) ]),
+                        texture  : resources.get('small.png', ImageResource),
                         depth    : 1,
                         font     : font,
-                        text     : '${party.members[party.selected].abilities[i].cost} mp',
-                        position : new Vector3(96, 11 + (i * 12))
+                        text     : '${party.members[party.selected].abilities[i].cost} mp'
                     });
+                    t.position.set_xy(96, 11 + (i * 12));
                     t.transformation.parent = geomAbilityMenu.transformation;
                     t;
                 }

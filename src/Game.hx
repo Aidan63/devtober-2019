@@ -64,7 +64,9 @@ class Game extends Flurry
         _config.window.width  = 320;
         _config.window.height = 240;
 
-        _config.renderer.clearColour.fromRGBA(0.278, 0.176, 0.235, 1.0);
+        _config.renderer.ogl3.clearColour.set(0.278, 0.176, 0.235, 1.0);
+        _config.renderer.ogl4.clearColour.set(0.278, 0.176, 0.235, 1.0);
+        _config.renderer.dx11.clearColour.set(0.278, 0.176, 0.235, 1.0);
 
         _config.resources.preload = PrePackaged('preload');
 
@@ -73,7 +75,7 @@ class Game extends Flurry
 
     override function onReady()
     {
-        uiCamera  = new Camera2D(160, 120);
+        uiCamera  = renderer.createCamera2D(160, 120);
         uiBatcher = renderer.createBatcher({
             camera : uiCamera,
             shader : resources.get('textured', ShaderResource),

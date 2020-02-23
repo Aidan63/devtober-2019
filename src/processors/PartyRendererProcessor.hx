@@ -6,12 +6,10 @@ import clay.Entity;
 import components.PartyComponent;
 import clay.Components;
 import clay.Family;
-import uk.aidanlee.flurry.api.gpu.geometry.Geometry;
 import uk.aidanlee.flurry.api.resources.Resource.ImageResource;
 import uk.aidanlee.flurry.api.gpu.geometry.shapes.QuadGeometry;
 import uk.aidanlee.flurry.api.resources.ResourceSystem;
 import uk.aidanlee.flurry.api.gpu.batcher.Batcher;
-import uk.aidanlee.flurry.api.maths.Rectangle;
 import clay.Processor;
 
 class PartyRendererProcessor extends Processor
@@ -20,9 +18,9 @@ class PartyRendererProcessor extends Processor
 
     final texture : ImageResource;
 
-    final faces : Array<Geometry>;
+    final faces : Array<QuadGeometry>;
 
-    final frames : Array<Geometry>;
+    final frames : Array<QuadGeometry>;
 
     final healthBars : Array<QuadGeometry>;
 
@@ -63,16 +61,17 @@ class PartyRendererProcessor extends Processor
             for (i in 0...party.members.length)
             {
                 final alpha = party.members[i].turnTaken ? 0.75 : 1.0;
-                // faces[i].color.a = alpha;
-                // frames[i].color.a = alpha;
-                // healthBars[i].color.a = alpha;
-                // specialBars[i].color.a = alpha;
+
+                faces[i].setColour(1, 1, 1, alpha);
+                frames[i].setColour(1, 1, 1, alpha);
+                healthBars[i].setColour(1, 1, 1, alpha);
+                specialBars[i].setColour(1, 1, 1, alpha);
 
                 final healthBarWidth  = Maths.ceil((party.members[i].health / party.members[i].maxHealth) * 10);
                 final specialBarWidth = Maths.ceil((party.members[i].special / party.members[i].maxSpecial) * 10);
 
-                healthBars[i].resize_xy(healthBarWidth, 4);
-                specialBars[i].resize_xy(specialBarWidth, 1);
+                healthBars[i].resize(healthBarWidth, 4);
+                specialBars[i].resize(specialBarWidth, 1);
             }
         }
     }
@@ -85,30 +84,30 @@ class PartyRendererProcessor extends Processor
         {
             faces.push(new QuadGeometry({
                 batchers : [ batcher ],
-                textures : Textures([ texture ]),
-                region : new ImageRegion(texture, (i * 16), 48, 16, 16),
-                x : 16 + (i * 48), y : 96, w : 16, h : 16
+                texture  : texture,
+                region   : new ImageRegion(texture, (i * 16), 48, 16, 16),
+                x : 16 + (i * 48), y : 96, width : 16, height : 16
             }));
 
             frames.push(new QuadGeometry({
-                batchers: [ batcher ],
-                textures: Textures([ texture ]),
-                region: new ImageRegion(texture, 0, 0, 16, 16),
-                x : 32 + (i * 48), y : 96, w : 16, h : 16
+                batchers : [ batcher ],
+                texture  : texture,
+                region   : new ImageRegion(texture, 0, 0, 16, 16),
+                x : 32 + (i * 48), y : 96, width : 16, height : 16
             }));
 
             healthBars.push(new QuadGeometry({
                 batchers : [ batcher ],
-                textures : Textures([ texture ]),
-                region: new ImageRegion(texture, 3, 19, 10, 4),
-                x : 35 + (i * 48), y : 99, w : 10, h : 4
+                texture  : texture,
+                region   : new ImageRegion(texture, 3, 19, 10, 4),
+                x : 35 + (i * 48), y : 99, width : 10, height : 4
             }));
 
             specialBars.push(new QuadGeometry({
                 batchers : [ batcher ],
-                textures : Textures([ texture ]),
-                region: new ImageRegion(texture, 3, 28, 10, 1),
-                x : 35 + (i * 48), y : 108, w : 10, h : 1
+                texture  : texture,
+                region   : new ImageRegion(texture, 3, 28, 10, 1),
+                x : 35 + (i * 48), y : 108, width : 10, height : 1
             }));
         }
     }
